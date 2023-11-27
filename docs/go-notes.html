@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="Description" content="Personal website">
+	<meta name="author" content="Nicolas Barbeito">
+	<title>ncb.ar</title>
+</head>
+<body>
+<h1 id="Notes%20on%20go">Notes on go</h1>
+
+<p>Some notes on the go programming language.</p>
+
+<h2 id="General">General</h2>
+
+<p>The language is similar to c, but:</p>
+
+<ul>
+<li>provides garbage collection</li>
+<li>removes pointer arithmetic</li>
+<li>namespaces (modules)</li>
+<li>extensive standard library (http servers, etc.)</li>
+<li>first-class and anonymous functions</li>
+<li>has more useful built-in types: maps, slices, interfaces</li>
+<li>compact iteration over maps, slices, etc</li>
+<li>generic types and interfaces</li>
+<li>native utf-8</li>
+<li>defer</li>
+<li>errors are just values (no try-except-finally exceptions!)</li>
+<li>built in concurrency constructs</li>
+<li>tools (<code>go</code>, <code>gofmt</code>, <code>gopls</code>, etc.)</li>
+</ul>
+
+<p>Usual numeric types:</p>
+
+<pre><code>int, int8, int16, int32, int64
+uint, uint8, uint16, uint32, uint64
+float32, float64
+complex
+</code></pre>
+
+<p>The types go to the right:</p>
+
+<pre><code>var x int
+var f float
+var x, y someType &#47;&#47; you can factor types
+func f(x int, f float, x,y someType)
+</code></pre>
+
+<p>Only one (flexible) keyword for iteration:</p>
+
+<pre><code>for i = 0; i &#60; n; i++ {}
+for i &#60; n {} &#47;&#47; equivalent to while (i &#60; n)
+for {} &#47;&#47; equivalent to while (1)
+for index, value := range slice {}
+for k, v := range someMap {}
+etc.
+</code></pre>
+
+<p>with the <code>continue</code> and <code>break</code> statements working like they do in <code>c</code>.</p>
+
+<p>The function <code>panic</code> takes a string, prints it on <code>stderr</code> and aborts the program execution.</p>
+
+<p>Some quirks:</p>
+
+<ul>
+<li>unused variables are an error</li>
+<li>unused imported packages are an error</li>
+<li>standard source code style given by <code>gofmt</code></li>
+</ul>
+
+<h2 id="Structs">Structs</h2>
+
+<ul>
+<li>Similar to c structs and objects in other languages</li>
+<li>Contain related data</li>
+<li>Fields can be accessed (fields with names starting with uppercase are exported)</li>
+<li>Can associate methods to them</li>
+</ul>
+
+<p>Definning a struct type:</p>
+
+<pre><code>type bookInfo struct {
+    name string
+    isbn string
+    id   int
+}
+</code></pre>
+
+<p>It&#39;s possible to define annonymous structs (without type name):</p>
+
+<pre><code>anon := struct {
+    name         string
+    page, offset int
+}{
+    name:   "SomeName",
+    page:   10,
+    offset: 100,
+}
+</code></pre>
+
+<p>They are useful for structuring data once, without having to define a type; for example when unmarshaling json data from an api.</p>
+
+<p>To instantiate a struct:</p>
+
+<pre><code>b := bookInfo{
+    name: "book name",
+    isbn: "xxxxxxxxxx",
+    id:   100, &#47;&#47; notice the comma
+}
+</code></pre>
+
+<p>You can ignore the field names:</p>
+
+<pre><code>b := bookInfo{
+    "book name",
+    "xxxxxxxxxx",
+    100, &#47;&#47; notice the comma
+}
+</code></pre>
+
+<p>If a field is not initiallized, it takes it&#39;s zero value.</p>
+
+<p>Structs can have methods, similar to objects in other languages</p>
+
+<pre><code>func (b bookInfo) Name() string {
+    return b.name
+}
+</code></pre>
+
+<p>As in regular functions, the <code>b</code> parameter is passed by value. To use it as a reference, use a pointer:</p>
+
+<pre><code>func (b *bookInfo) Name() string {
+    return b.name
+}
+</code></pre>
+
+<p>If the method receives a value, the following code works:</p>
+
+<pre><code>b := bookInfo{
+    name: "book name",
+    isbn: "xxxxxxxxxx",
+    id:   100, &#47;&#47; notice the comma
+}
+fmt.Println((&#38;b).Name())
+</code></pre>
+
+<p>it&#39;s equivalent to</p>
+
+<pre><code>b := bookInfo{
+    name: "book name",
+    isbn: "xxxxxxxxxx",
+    id:   100, &#47;&#47; notice the comma
+}
+fmt.Println(b.Name())
+</code></pre>
+
+<p>If the method expects a pointer and receives a value, the compiler takes the reference of the value (if it&#39;s possible) and passes it automatically.</p>
+
+<h2 id="Slices">Slices</h2>
+
+<p>They have a more precise definition, but in general are just used as lists. To define a slice:</p>
+
+<pre><code>var s someType[]
+</code></pre>
+
+<p>The zero value of a slice is <code>nil</code>. To declare and initialize at the same time:</p>
+
+<pre><code>s := someType[]{} &#47;&#47;empty
+t := someType[]{v1, v2, v3}
+</code></pre>
+
+<p>Sometimes it&#39;s useful to create a slice of anon structs:</p>
+
+<pre><code>s := []struct {
+    page   int
+    offset int
+}{
+    {1, 100},
+    {2, 40},
+    {10, 0},
+}
+</code></pre>
+
+<p>To access the i-th element in a slice:</p>
+
+<pre><code>v = s[i]
+</code></pre>
+
+<p>You can copy a slice with a similar syntax as in <code>python</code> list ranges:</p>
+
+<pre><code>ss := s[i:n]
+</code></pre>
+
+<p>with <code>i</code> the index of the first element and <code>n</code> last element to be copied (is non inclusive). If <code>i</code> or <code>n</code> are not explicit, they default to <code>0</code> and the remaining string respectively.</p>
+
+<pre><code>ss := s[:]   &#47;&#47; entire slice
+ss := s[2:4] &#47;&#47; s[2] s[3]
+ss := s[:3]  &#47;&#47; s[0] s[1] s[2]
+ss := s[1:]  &#47;&#47; s[1] s[2] s[3] ... s[n]
+</code></pre>
+
+<p>The built-in function <code>len</code> returns the length of an slice</p>
+
+<pre><code>s := []int{1, 2, 3}
+fmt.Prinln(len(s)) &#47;&#47; prints 3
+</code></pre>
+
+<p>With the built in function <code>append</code>, you can create a new slice equal to an existing slice plus an element:</p>
+
+<pre><code>s := []int{1, 2, 3}
+ns := append(s, 4) &#47;&#47; ns is 1, 2, 3, 4
+</code></pre>
+
+<p>Iterate over a slice with the <code>for</code> and <code>range</code> keywords:</p>
+
+<pre><code>for i, v := range slice {
+    fmt.Println("Value: ", v, "on index: ", i)
+}
+
+for i := range slice {
+    fmt.Println("Value: ", slice[i], "on index: ", i)
+}
+</code></pre>
+
+<h2 id="Maps">Maps</h2>
+
+<p>Maps associates a set of keys with a set of values. They are similar to <code>python</code> dictionaries. To define map between two types, for example <code>keyType</code> and <code>valueType</code>,</p>
+
+<pre><code>var m map[keyType]valueType
+</code></pre>
+
+<p>The zero value for a map is <code>nil</code> and no keys can be added to it. To initialize an empty map:</p>
+
+<pre><code>m := make(map[keyType]valueType)
+</code></pre>
+
+<p>To initialize it with some values:</p>
+
+<pre><code>m := map[keyType]valueType{
+    k1: v1,
+    ...
+    kn: vn,
+}
+</code></pre>
+
+<p>To get the value for a key in a map do:</p>
+
+<pre><code>value = m[key]
+</code></pre>
+
+<p>If the key is not defined in the map it will return the zero value of the value type.</p>
+
+<p>It&#39;s possible to know if the key was found, by receiving two values:</p>
+
+<pre><code>value, ok := m[key]
+if ok {
+    fmt.Println("Key was found with value: ", value)
+} else {
+    fmt.Println("Key not found")
+}
+</code></pre>
+
+<p>A common pattern is:</p>
+
+<pre><code>if value, ok := m[key]; ok {
+    use(value)
+}
+fmt.Println("Key not found")
+</code></pre>
+
+<p>Or:</p>
+
+<pre><code>if value, ok := m[key]; !ok {
+    fmt.Println("Key not found")
+}
+use(value)
+</code></pre>
+
+<p>To remove a mapping:</p>
+
+<pre><code>delete(m, key)
+</code></pre>
+
+<p>You can iterate over a mapping, receiving in each iteration a key value-pair:</p>
+
+<pre><code>for key, value := range m {
+    fmt.Println("key: ", key, "value: ", value)
+}
+</code></pre>
+
+<h2 id="Functions">Functions</h2>
+
+<p>Functions are defined with the syntax:</p>
+
+<pre><code>func funcName(parameters) returnTypes {
+    &#47;&#47; body
+}
+</code></pre>
+
+<p>where <code>parameters</code> are a list of variable definitions (with the usual syntax) and <code>returnTypes</code> is either a type or a list of types in the format:</p>
+
+<pre><code>(type1, type2, ... , typeN)
+</code></pre>
+
+<p>For example:</p>
+
+<pre><code>func f() error {
+    return error("error")
+}
+</code></pre>
+
+<p>takes no arguments and returns an error (<code>nil</code> denotes the absence of error). But this function:</p>
+
+<pre><code>func divideThem(x, y float64) (float64, error) {
+    if y == 0 {
+        return 0, error("con&#39;t devide by 0")
+    }
+
+    return x &#47; y, nil
+} 
+</code></pre>
+
+<p>If there is some code which should execute at the end of a function, use <code>defer</code>. It&#39;s useful for keeping the source code of some statements close, because their functions are closely related, but their execution isn&#39;t. For example, in this function from <a href="https://go.dev/blog/defer-panic-and-recover">here</a>:</p>
+
+<pre><code>func CopyFile(dstName, srcName string) (written int64, err error) {
+    src, err := os.Open(srcName)
+    if err != nil {
+        return
+    }
+    defer src.Close()
+
+    dst, err := os.Create(dstName)
+    if err != nil {
+        return
+    }
+    defer dst.Close()
+
+    return io.Copy(dst, src)
+}
+</code></pre>
+
+<p>the <code>defer src.Close()</code> is kept close to the <code>os.Open(srcName)</code> but their execution isn&#39;t. It&#39;s good to keep those two statements close because it&#39;s easier to read and write that code (no need to remember to close the file, or to remember to check if the code you are reading closes all the files). Without <code>defer</code>:</p>
+
+<pre><code>func CopyFile(dstName, srcName string) (written int64, err error) {
+    src, err := os.Open(srcName)
+    if err != nil {
+        return
+    }
+
+    dst, err := os.Create(dstName)
+    if err != nil {
+        return
+    } 
+
+    w, err := io.Copy(dst, src)
+
+    src.Close() &#47;&#47; easy to forget!
+    dst.Close()
+    return w, err
+}
+</code></pre>
+
+<h2 id="Interfaces">Interfaces</h2>
+
+<p>Similar concepts as <code>haskell</code> typeclasses.</p>
+
+<p>They define a set of methods. If a type implements those methods, that type implements that interface.</p>
+
+<p>Just like a <code>struct</code>, an interface is a type also. It can be passed as arguments to functions or variables can be declared to have that type (although with some restrictions). Something typed as an interface can represent any value from any type which implements that interface.</p>
+
+<p>A stupid example:</p>
+
+<pre><code>package main
+
+import (
+    "fmt"
+)
+
+type animal interface {
+    Eat()
+    isAlive() bool
+}
+
+type dog struct {
+    name string
+    alive bool
+}
+
+func (d dog) Eat() {
+    return
+}
+
+func (d dog) isAlive() bool {
+    return d.alive
+}
+
+type cat struct {
+    name           string
+    remainingLives int
+}
+
+func (c cat) Eat() {
+    return
+}
+
+func (c cat) isAlive() bool {
+    return c.remainingLives &#62; 0
+}
+
+func countLiving(as []animal) int {
+    alive := 0
+    for _, a := range as {
+        if a.isAlive() {
+            alive++
+        }
+    }
+    return alive
+}
+
+func main() {
+    animals := []animal{
+        dog{"teo", false,},
+        dog{"chicho", false,},
+        dog{"alfie", true,},
+        cat{"gata", 0,},
+    }
+
+    fmt.Println(countLiving(animals))
+}
+</code></pre>
+
+<p>By definition, the empty interface is implemented by every type.</p>
+
+<pre><code>type everyType interface{}
+</code></pre>
+
+<p>A shorthand for <code>interface{}</code> is <code>any</code>. This are equivalent:</p>
+
+<pre><code>type everyType interface{}
+type everytype any
+</code></pre>
+
+<p>To run code depending on the type of an interface value you can use type assertions and type switches.</p>
+
+<p>Type assertions allow to assert the type and get the underlying value of an interface value:</p>
+
+<pre><code>var i any := "some string"
+v, ok := i.(string)
+&#47;&#47; now v is "some string" and ok is true
+
+v, ok = i.(int)
+&#47;&#47; v is 0 (int&#39;s zero value) and ok is false
+</code></pre>
+
+<p>If the type assersion is used returning only a value, the program panics if the type is incorrect</p>
+
+<pre><code>var i any := "some string"
+v = i.(int) &#47;&#47; panics
+</code></pre>
+
+<p>A type switch switches the execution according to the type of an interface value:</p>
+
+<pre><code>var i any := "some string"
+switch v := i.(type) {
+case string:
+    fmt.Println(v)
+case int:
+    fmt.Println("Is an int: ", v)
+default:
+    fmt.Println("Not an int nor a string")
+}
+</code></pre>
+
+<h2 id="Generics">Generics</h2>
+
+<p>A way to define types and functions receiving types as parameters. Example taken from <a href="https://go.dev/doc/tutorial/generics">here</a>:</p>
+
+<pre><code>func SumIntsOrFloats[K comparable, V int64 | float64](m map[K]V) V {
+    var s V
+    for _, v := range m {
+        s += v
+    }
+    return s
+}
+</code></pre>
+
+<p>Here, <code>K</code> has to be in the <code>comparable</code> class (types with <code>==</code> and <code>!=</code> defined), and <code>V</code> is either <code>int64</code> or <code>float64</code>.</p>
+
+<p>To use a generic function:</p>
+
+<pre><code>SumIntsOrFloats[string, int64](ints)
+SumIntsOrFloats[string, float64](floats)
+</code></pre>
+
+<p>A <code>struct</code> can also take generic types:</p>
+
+<pre><code>type vector[T int | float32 | float64] struct {
+    x, y T
+}
+</code></pre>
+
+<p>An interface can be used as a type constraint</p>
+
+<pre><code>type number interface {
+    int | float32 | float64
+}
+
+type vector[T number] struct {
+    x, y T
+}
+</code></pre>
+
+<h2 id="Concurrency">Concurrency</h2>
+
+<p>Go implements concurrency using goroutines. A goroutine creates a thread which executes a function concurrently.</p>
+
+<pre><code>go f(x, y, z) 
+</code></pre>
+
+<p>Runs the function <code>f</code> in a new goroutine. First it evaluates <code>f</code>, <code>x</code>, <code>y</code> and <code>z</code> in the current thread and then it creates the goroutine.</p>
+
+<p>Goroutines communicate through typed channels. You send values from one end of a <code>channel</code> and read them from the other; they are typed because it&#39;s only possible to send and read values of that type. The channels are, by default, blocking. Like threads, goroutines execute in the same address space.</p>
+
+<p>Create a channel:</p>
+
+<pre><code>ch := make(chan int)
+</code></pre>
+
+<p>Then, you can send and read ints through <code>ch</code>.</p>
+
+<pre><code>ch &#60;- i &#47;&#47; i is of type int
+
+n = &#60;-ch &#47;&#47; read int from ch into variable n
+</code></pre>
+
+<p>Passing a buffer length to <code>make</code> you can create a buffered channel:</p>
+
+<pre><code>ch := make(chan int, 10)
+</code></pre>
+
+<p>The buffered channel will only block when the buffer is full.</p>
+
+<p>Channels can be closed by the sender using the built-in function <code>close</code>:</p>
+
+<pre><code>ch := make(chan int)
+...
+close(ch)
+</code></pre>
+
+<p>when an end closes a <code>channel</code> it can&#39;t send more data through it. To test if a <code>channel</code> is closed, receive two parameter:</p>
+
+<pre><code>n, ok := &#60;-ch
+</code></pre>
+
+<p>When closed, <code>ok</code> will be <code>false</code>.</p>
+
+<p>It&#39;s possible to iterate over a <code>channel</code>. The iteration gives the value read from the <code>channel</code> in each iteration. The <code>for</code> ends when <code>ch</code> is closed.</p>
+
+<pre><code>for i := range ch {
+    ...
+}
+</code></pre>
+
+<p>To wait on a set of channels there&#39;s <code>select</code>:</p>
+
+<pre><code>for {
+    select {
+    case x &#60;- ch:
+        fmt.Println("From channel ch: ", x)
+    case y &#60;- ch2:
+        fmt.Println("From channel ch2: ", x)
+    default:
+        fmt.Println("No value received")
+        time.Sleep(time.Second)
+    }
+}
+</code></pre>
+
+<p>The execution blocks until one of the channels receives an input. To execute code if no value was sent, you can put it on the <code>default</code> case.</p>
+
+<h2 id="Links%20and%20biblio">Links and biblio</h2>
+
+<ul>
+<li><a href="https://go.dev/doc/effective_go">Effective go</a></li>
+<li><a href="https://go.dev/doc/code">How to write go code</a></li>
+<li><a href="https://go.dev/tour/">A tour of go</a></li>
+</ul>
+</body>
+</html>

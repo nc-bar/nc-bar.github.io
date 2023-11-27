@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="Description" content="Personal website">
+	<meta name="author" content="Nicolas Barbeito">
+	<title>ncb.ar</title>
+</head>
+<body>
+<ul>
+<li>server: <a href="https://donweb.com">donweb</a> vps</li>
+<li>dns: <a href="https://donweb.com">donweb</a></li>
+<li>domain: <a href="https://nic.ar/">nic.ar</a></li>
+<li>os: <a href="https://www.debian.org/">debian</a></li>
+<li>service supervision: <a href="https://cr.yp.to/daemontools.html">daemontools</a></li>
+<li>http: <a href="https://cr.yp.to/ucspi-tcp.html">ucspi-tcp</a> and <a href="cr.yp.to/publicfile.html">publicfile</a></li>
+<li>tls: <a href="https://caddyserver.com/docs/">caddy</a> reverse proxy</li>
+<li>writing: <a href="https://kristaps.bsd.lv/lowdown/">markdown</a> and html</li>
+<li>site generator: <a href="https://romanzolotarev.com/ssg.html">ssg</a></li>
+<li>deployment: <a href="https://git-scm.com/">git</a></li>
+</ul>
+
+<h2 id="deployment">deployment</h2>
+
+<pre><code>local changes -&#62; commit -&#62; push to server -&#62; post-receive hook -&#62; deploy script -&#62; ssg.sh
+</code></pre>
+
+<p>Post receive hook:</p>
+
+<pre><code>#!&#47;bin&#47;sh
+
+echo $name (date) &#62;&#62; ~&#47;commits
+$deployrepo&#47;deploy
+</code></pre>
+
+<p>Deploy script:</p>
+
+<pre><code>#!&#47;bin&#47;sh
+
+unset GIT_DIR
+
+wd=$deploydir
+repo=$wd&#47;ncb.ar
+files=$repo&#47;$filesdir
+name=ncb.ar
+url=ncb.ar
+out=&#47;public&#47;web&#47;file&#47;0
+
+echo $(date) &#62;&#62; $wd&#47;last-commit.txt
+
+cd $repo
+git pull --verbose
+
+.&#47;ssg.sh $files $out $name $url
+</code></pre>
+</body>
+</html>

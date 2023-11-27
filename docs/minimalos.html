@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="Description" content="Personal website">
+	<meta name="author" content="Nicolas Barbeito">
+	<title>ncb.ar</title>
+</head>
+<body>
+<h1 id="a%20small%20os%20template">a small os template</h1>
+
+<p>Most tutorials use <code>gcc</code> cross compilation, which requieres compiling it. The <code>clang</code> compiler can be used as a cross compiler without the extra step (it produces architecture independent code in <code>llvm</code> which can target multiple architectures).</p>
+
+<h2 id="tools">tools</h2>
+
+<p>Use the <code>multiboot</code> standard so it can be booted by using standard tools such as <code>grub2</code>. To test if a file is compliant with <code>multiboot</code>:</p>
+
+<pre><code>grub-file --is-x86-multiboot file
+</code></pre>
+
+<p>or, for <code>multiboot2</code>:</p>
+
+<pre><code>grub-file --is-x86-multiboot2 file
+</code></pre>
+
+<p>A <code>multiboot</code> compliant image has a header containing three consecutive <code>32 bit</code> values: a magic number, flags and a checksum. This values have to be <code>4 bytes</code> aligned in the fist 8k in the file.</p>
+
+<p><code>clang</code> as the crosscompiler to target another platform. A platform is something like:</p>
+
+<pre><code>&#60;processor, os, binary format, ~other things~&#62;
+</code></pre>
+
+<p>such as</p>
+
+<pre><code>&#60;x86, none, elf, ...&#62;
+</code></pre>
+
+<p>The assembler and linker are invoked using the <code>clang</code> command.</p>
+
+<p>The compiler will create an <code>elf</code> binary.</p>
+
+<h2 id="code%20to%20call%20a%20kernel">code to call a kernel</h2>
+
+<p>A bit of assembler to define some sections in the kernel image and call the kernel entry point. First some constants:</p>
+
+<pre><code>.set ALIGN,    1&#60;&#60;0             &#47;* alignment *&#47;
+.set MEMINFO,  1&#60;&#60;1
+.set FLAGS,    ALIGN | MEMINFO
+.set MAGIC,    0x1badb002
+.set CHECKSUM, -(MAGIC + FLAGS) &#47;* checksum *&#47;
+</code></pre>
+
+<p>Now the <code>multiboot</code> section:</p>
+
+<pre><code>.section .multiboot
+.align 4
+.long MAGIC
+.long FLAGS
+.long CHECKSUM
+</code></pre>
+
+<p>Later, use the linker to put the sections together to get it in the first <code>8k</code> of the image.</p>
+
+<p>The kernel needs a stack if it&#39;s written in <code>c</code> (calling functions, etc.). Use the <code>.bss</code> section. Remember that in <code>x86</code> the stack grows from higher memory addresses to lower.</p>
+
+<pre><code>.section .bss
+.align 16     # apparently, the stack on x86 must be 16-byte aligned in the System V ABI
+stack_bottom: # stack "begins"
+.skip 16384   # 16 KiB of stack
+stack_top:    # stack "ends"
+</code></pre>
+
+<p>Define the <code>.text</code> section containing the executable code. Call the kernel entry point.</p>
+
+<pre><code>.section .text
+.global _start
+.type _start, @function
+_start:
+    mov $stack_top, %esp
+    call kernel_main
+    cli
+1:  hlt
+    jmp 1b
+</code></pre>
+
+<h2 id="kernel%20code">kernel code</h2>
+
+<p>The kernel needs to implement a <code>kernel_main</code> function, which will be called in the previous code.</p>
+
+<p>Assuming the system uses <code>bios</code>, the following kernel just prints <code>kernel running</code> in the video memory.</p>
+
+<pre><code>#define VIDEO_MEM 0xb8000
+
+void print_msg(void) {
+    char *video = (char*) VIDEO_MEM;
+    const char *msg = "kernel running";
+
+    for(int i = 0; msg[i]; i++) {
+        video[2*i] = msg[i];
+        video[2*i + 1] = 0x07;
+    }
+}
+
+void clear_screen() {
+    int i;
+    char *video = (char*) VIDEO_MEM;
+
+    for(i = 0; i &#60; 25*80; i++) {
+        video[2*i] = 0;
+    }
+}
+
+void kernel_main(void) {
+    clear_screen();
+    print_msg();
+}
+</code></pre>
+
+<h2 id="linker%20script">linker script</h2>
+
+<p>A linker script defines the resulting binary. For example, the sections to include, their memory address, the entry symbol, etc.</p>
+
+<pre><code>ENTRY(_start)
+
+SECTIONS
+{
+    . = 0x100000; &#47;&#47; load at 1M
+
+    .text : {          &#47;&#47; code
+        *(multiboot)   &#47;&#47; section for multiboot (within the 8k)
+        *(.text)
+    }
+    .data ALIGN(4096) : {
+        *(.data)
+    }
+    .rodata ALIGN(4096) : {
+        *(.rodata)     &#47;&#47; read-only data
+    }
+    .bss ALIGN(4096) : {
+        *(.bss)        &#47;&#47; variables, stack
+    }
+}
+</code></pre>
+
+<h2 id="build%20script">build script</h2>
+
+<p>To build the project:</p>
+
+<pre><code>#!&#47;bin&#47;sh
+
+# kernel.c
+clang --target=i386-pc-none-elf -ffreestanding -o kernel.o -c kernel.c
+
+# bootloader
+clang --target=i386-pc-none-elf -o boot.o -c boot.S
+
+# link
+clang --target=i386-pc-none-elf -ffreestanding -nostdlib -Wl,--no-dynamic-linker -Wl,-Tlinker.ld boot.o kernel.o -o kernel.bin
+</code></pre>
+
+<h1 id="testing">testing</h1>
+
+<p>The easiest way to test a kernel is to use a virtual machine. In particular, <code>qemu</code> can boot a kernel directly using <code>multiboot</code>, without the need to create a bootable media (an <code>.iso</code> for example):</p>
+
+<pre><code>qemu-system-i386 -kernel kernel.bin
+</code></pre>
+
+<h2 id="references">references</h2>
+
+<p><a href="https://wiki.osdev.org/Main_Page">osdev</a> for everything, in particular:</p>
+
+<ul>
+<li><a href="https://wiki.osdev.org/LLVM_Cross-Compiler">using clang</a></li>
+<li><a href="https://wiki.osdev.org/Bare_Bones">template</a></li>
+<li>another <a href="https://wiki.osdev.org/Bare_Bones_with_NASM">template</a> but using the <code>nasm</code> assembler, as an alternative to <code>gas</code></li>
+<li>how to <a href="https://wiki.osdev.org/Kernel_Debugging">debug</a> a kernel</li>
+<li>info on the <a href="https://wiki.osdev.org/Multiboot">multiboot</a> standard</li>
+</ul>
+
+<p>Not in osdev:</p>
+
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Executable_and_Linkable_Format">elf</a> in Wikipedia</li>
+<li><a href="https://www.cs.cmu.edu/afs/cs/academic/class/15213-f00/docs/elf.pdf">elf</a></li>
+<li>some code and build instructions for using <code>clang</code> <a href="https://github.com/Henje/x86-Toy-OS">x86-Toy-OS</a></li>
+</ul>
+</body>
+</html>

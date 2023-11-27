@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="Description" content="Personal website">
+	<meta name="author" content="Nicolas Barbeito">
+	<title>ncb.ar</title>
+</head>
+<body>
+<p>The simplest mechanism providing access control in Unix operating systems uses file permissions
+and users. Files have owners, both groups and users, and a set of permissions.
+For example:</p>
+
+<pre><code>d-rwxr-xr-x M 0 ncb ncb      0 Aug  6 12:24 forth
+d-rwxr-xr-x M 0 ncb ncb      0 Aug  3 23:03 groff
+--rw-r--r-- M 0 ncb ncb   1596 Jul 31 18:11 installing-noweb-in-openbsd.md
+d-rwxr-xr-x M 0 ncb ncb      0 Aug  5 15:47 ncb.ar
+</code></pre>
+
+<p>The list above is a list of files and directories (the latter beign just a
+kind of file). The most important part of every item, concerning security, are
+the ownership and the permissions flags:</p>
+
+<pre><code>--rw-r--r-- ncb ncb      installing-noweb-in-openbsd.md
+d-rwxr-xr-x ncb ncb      ncb.ar
+</code></pre>
+
+<p>The second and third columns say that the <code>ncb</code> user and the <code>ncb</code> group own
+the file.</p>
+
+<p>The first column is a string of flags which say who can <code>read</code>, <code>open</code> or
+<code>execute</code> the file. The first flag in the first row above, (<code>-</code>) indicates
+that <code>installing-noweb-in-openbsd.md</code> is a normal file; the second row says
+that <code>ncb.ar</code> is a directory (<code>d</code>).</p>
+
+<p>The last three triplets set the owner <code>user</code>, <code>group</code> owner and <code>other</code> users
+permissions. Letters <code>r</code>, <code>w</code> and <code>x</code> denote <code>read</code>, <code>write</code> and <code>execute</code>:</p>
+
+<pre><code>--rw-r--r-- ncb ncb      installing-noweb-in-openbsd.md
+d-rwxr-xr-x ncb ncb      ncb.ar
+</code></pre>
+
+<p>In this case, the user <code>ncb</code> can <code>r</code>ead and <code>w</code>rite the <code>installing-noweb-in-
+openbsd.md</code> file but it can&#39;t e<code>x</code>ecute it. The <code>d</code> in the beginning of the
+second row implies that the file is a directory; the execution permission in a
+directory means it can be opened.</p>
+
+<p>If all resources the operating system provides are exported through the file 
+system, the same mechanism could be used to provide security.</p>
+
+<p>For example, if the user attempting to launch a process permissions to open and write into 
+<code>&#47;proc</code>, creating a process from an executable file could be done by:</p>
+
+<pre><code>cp a.out &#47;proc&#47;user&#47;
+</code></pre>
+
+<p>By turning everything into a file system, all the different interfaces and permissions
+merge into the file system. The programmer doesn&#39;t need to learn other system
+calls and their permissions and restrictions. Libraries would also be
+simplified, since many syscalls would just be familiar operations on
+files.</p>
+
+<p>Another interesting application would be to restrict a process capabilities. The 
+way to achive it today is to use containers or virtual machines, or if security 
+is not a concern, a chroot. (OpenBSD created another method: 
+<a href="https://man.openbsd.org/unveil.2">unveil</a> and <a href="https://man.openbsd.org/pledge">pledge</a>).
+If a system call is migrated into an object in the filesystem, usual file permissions could
+restrict access to it.</p>
+</body>
+</html>

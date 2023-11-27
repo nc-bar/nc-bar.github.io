@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="Description" content="Personal website">
+	<meta name="author" content="Nicolas Barbeito">
+	<title>ncb.ar</title>
+</head>
+<body>
+<h1 id="Algorithms%20and%20data%20strructures">Algorithms and data strructures</h1>
+
+<p>Notes some algorithms and data structures.</p>
+
+<h2 id="binary%20search%20trees">binary search trees</h2>
+
+<p>A tree where each node value is bigger than the value of the left child and smaller or equal than the one on the right.</p>
+
+<pre><code>          5
+         &#47; \
+        4   6
+       &#47; \
+      3  2
+</code></pre>
+
+<p>The invariant applies recursively to the subtrees rooted in each child.</p>
+
+<p>The ordering of the tree allows fast search and insert, in <code>O(log(n))</code>, where <code>n</code> is the amount of elements.</p>
+
+<p>Insert:</p>
+
+<pre><code>insert v in tree T:
+  if T is empty
+    return a tree with a single node with value v
+
+  if T.value &#62; v
+    if T.left is empty
+      create node with value v in T.left
+      return
+    insert v on T.left
+  else
+    if T.right is empty
+      create node with value v in T.right
+      return
+    insert v on T.right
+</code></pre>
+
+<p>Search:</p>
+
+<pre><code>search value v in tree T:
+  if T is empty
+    return false
+  if T.value == v
+    return true
+
+  if T.value &#60;= v
+    return search v in Tree.right
+
+  else
+    return search v in Tree.left
+</code></pre>
+
+<h2 id="avl">avl</h2>
+
+<p>An example of a balanced binary search tree. To the properties of a <em>binary search tree</em>, this structure adds balancing: the difference in heights of the trees from any node is bounded by 1 and -1. In that way, searching elements within the tree grows in proportion to its height, logarithmicaly.</p>
+
+<p>The cost is an increase in the implementation complexity, but not that much.</p>
+
+<p>The usual operations performed in these trees are, like in BST&#39;s:</p>
+
+<ul>
+<li><code>insert</code></li>
+<li><code>delete</code></li>
+<li><code>search</code></li>
+<li>etc</li>
+</ul>
+
+<p>A possible structure to implement a <em>node</em>:</p>
+
+<pre><code>Node:
+    heigth: height of the tree rooted in this node
+    right_tree: reference to the right tree
+    left_tree: reference to the left tree
+    parent: reference to the parent node
+    value: value
+</code></pre>
+
+<p>To mantain a balance in the left and right branch height, each node has a <em>balance factor</em>. It is computed by:</p>
+
+<pre><code>bf(node) = node.right_tree.height - node.left_tree.height
+</code></pre>
+
+<p>The invariant of the tree, adding to those of a normal BFS, is that the balance factor of every node is 1, 0 or -1.</p>
+
+<p>To mantain this invariant it is necesary to modify the <em>insert</em> and <em>delete</em> methods. The algorithms are the same as the respective BFS algorithms, but after the changes, the balance factor of the nodes from the root to the ones changed needs to be restored.</p>
+
+<p>To restore the invariant in those nodes, there are operations known as <em>tree rotations</em>. They take a tree and produce an equivalent one with a different balance factor.</p>
+
+<p>The rotations are:</p>
+
+<p>This rotation is useful when the inserted node is <code>Z</code>:</p>
+
+<pre><code>          X[-2]                  Z[0]
+         &#47;    \                 &#47;   \ 
+       Y[1]    Xr              Y     X
+       &#47;  \        -----&#62;     &#47; \   &#47; \
+      Yl   Z                 Yl Zl Zr  Xr
+          &#47; \
+         Zl  Zr
+</code></pre>
+
+<p>This rotation is useful when the inserted node is in the place of <code>Z</code></p>
+
+<pre><code>     X[2]                  Y[0,1]
+    &#47; \                   &#47; \
+  Xl   Y[1]              X   Z
+      &#47; \     -----&#62;    &#47; \
+    Yl   Z             Xl  Yl
+        &#47; \
+       Zl  Zr
+</code></pre>
+
+<p>([] holds the balance factor)</p>
+
+<p>There are two other rotations which are symmetrical whith the above.</p>
+
+<h2 id="b-tree">b-tree</h2>
+
+<p>A tree with the invariant (taken from aocp vol III ed.2 p.483):</p>
+
+<ul>
+<li>every node has at most m children</li>
+<li>except for the root and leaves, nodes have at least <code>m&#47;2</code> children</li>
+<li>the root has at least 2 children (unless is a leaf)</li>
+<li>all leaves appear on the same level and carry no information</li>
+<li>a non-leaf node with <code>k</code> children contains <code>k-1</code> keys</li>
+</ul>
+
+<h2 id="todo">todo</h2>
+
+<ul>
+<li>fibonacci trees</li>
+<li>graphs: dfs, bfs, dijkstra, floyd, mst-algorithms, etc.</li>
+<li>heapsort, quicksort</li>
+<li>dynamic programming</li>
+</ul>
+</body>
+</html>
