@@ -76,34 +76,27 @@ To mantain a balance in the left and right branch height, each node has a _balan
 
 	bf(node) = node.right_tree.height - node.left_tree.height
 
-The invariant of the tree, adding to those of a normal BFS, is that the balance factor of every node is 1, 0 or -1.
+The invariant of the tree, adding to those of a normal BST, is that the balance factor of every node is 1, 0 or -1.
 
-To mantain this invariant it is necesary to modify the _insert_ and _delete_ methods. The algorithms are the same as the respective BFS algorithms, but after the changes, the balance factor of the nodes from the root to the ones changed needs to be restored.
-
-To restore the invariant in those nodes, there are operations known as _tree rotations_. They take a tree and produce an equivalent one with a different balance factor.
-
-The rotations are:
-
-This rotation is useful when the inserted node is `Z`:
+When inserting or deleting a node the balance factor may change, resulting in an inbalanced tree. A set of operations, called _rotations_, can fix them:
 
 
-	          X[-2]                  Z[0]
-	         /    \                 /   \ 
-	       Y[1]    Xr              Y     X
-	       /  \        ----->     / \   / \
-	      Yl   Z                 Yl Zl Zr  Xr
-	          / \
+	          X[-2]                                 Z[0]
+	          /    \                                 /   \ 
+	       Y[1]   Xr    rotation           Y     X
+	       /  \          -------->     / \   / \
+	      Yl   Z                                Yl Zl Zr  Xr
+	           / \
 	         Zl  Zr
 
-This rotation is useful when the inserted node is in the place of `Z`
 
 
-	     X[2]                  Y[0,1]
-	    / \                   / \
-	  Xl   Y[1]              X   Z
-	      / \     ----->    / \
-	    Yl   Z             Xl  Yl
-	        / \
+	     X[2]                             Y[0 or 1]
+	    / \                               / \
+	  Xl   Y[1]    rotation     X   Z
+	       / \     ------->       / \
+	    Yl   Z                            Xl  Yl
+	         / \
 	       Zl  Zr
 
 ([] holds the balance factor)
@@ -120,8 +113,6 @@ A tree with the invariant (taken from aocp vol III ed.2 p.483):
 - the root has at least 2 children (unless is a leaf)
 - all leaves appear on the same level and carry no information
 - a non-leaf node with `k` children contains `k-1` keys
-
-
 
 ## todo
 
