@@ -8,7 +8,7 @@
 	<title>ncb.ar</title>
 </head>
 <body>
-<h1 id="a%20small%20os%20template">a small os template</h1>
+<h1 id="a-small-os-template">a small os template</h1>
 
 <p>Most tutorials use <code>gcc</code> cross compilation, which requieres compiling it. The <code>clang</code> compiler can be used as a cross compiler without the extra step (it produces architecture independent code in <code>llvm</code> which can target multiple architectures).</p>
 
@@ -40,7 +40,7 @@
 
 <p>The compiler will create an <code>elf</code> binary.</p>
 
-<h2 id="code%20to%20call%20a%20kernel">code to call a kernel</h2>
+<h2 id="code-to-call-a-kernel">code to call a kernel</h2>
 
 <p>A bit of assembler to define some sections in the kernel image and call the kernel entry point. First some constants:</p>
 
@@ -62,7 +62,7 @@
 
 <p>Later, use the linker to put the sections together to get it in the first <code>8k</code> of the image.</p>
 
-<p>The kernel needs a stack if it&#39;s written in <code>c</code> (calling functions, etc.). Use the <code>.bss</code> section. Remember that in <code>x86</code> the stack grows from higher memory addresses to lower.</p>
+<p>The kernel needs a stack if it&#8217;s written in <code>c</code> (calling functions, etc.). Use the <code>.bss</code> section. Remember that in <code>x86</code> the stack grows from higher memory addresses to lower.</p>
 
 <pre><code>.section .bss
 .align 16     # apparently, the stack on x86 must be 16-byte aligned in the System V ABI
@@ -84,7 +84,7 @@ _start:
     jmp 1b
 </code></pre>
 
-<h2 id="kernel%20code">kernel code</h2>
+<h2 id="kernel-code">kernel code</h2>
 
 <p>The kernel needs to implement a <code>kernel_main</code> function, which will be called in the previous code.</p>
 
@@ -117,7 +117,7 @@ void kernel_main(void) {
 }
 </code></pre>
 
-<h2 id="linker%20script">linker script</h2>
+<h2 id="linker-script">linker script</h2>
 
 <p>A linker script defines the resulting binary. For example, the sections to include, their memory address, the entry symbol, etc.</p>
 
@@ -143,7 +143,7 @@ SECTIONS
 }
 </code></pre>
 
-<h2 id="build%20script">build script</h2>
+<h2 id="build-script">build script</h2>
 
 <p>To build the project:</p>
 

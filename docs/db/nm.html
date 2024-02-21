@@ -8,7 +8,7 @@
 	<title>ncb.ar</title>
 </head>
 <body>
-<h1 id="Normalization">Normalization</h1>
+<h1 id="normalization">Normalization</h1>
 
 <p>A multitude of database designs can model a real world problem correctly. Some
 of those designs are faster than others. Some are easier to understand as a
@@ -19,7 +19,7 @@ redundant and hard to update and delete.</p>
 <p><a href="https://wikipedia.org/wiki/Database_normalization">Normalization</a> is a way to
 measure how good a database design is, a set of rules and processes by which a
 programmer can improve their database schema. A normalized database is easier
-to understand, has less redundancy and it&#39;s easier to use.</p>
+to understand, has less redundancy and it&#8217;s easier to use.</p>
 
 <p>Some of the pitfalls of database design are:</p>
 
@@ -42,7 +42,7 @@ probably more appropiate than a string.</p>
 <p>A relational database stores data and relates them to each other. The more
 redundancy, the more space a database needs. Of course for small databases
 this is not a big problem, but as the database grows it becomes more
-inconvinient. The more redundant a database is, the harder to maintain it&#39;s
+inconvinient. The more redundant a database is, the harder to maintain it&#8217;s
 integrity and make changes to it becomes.</p>
 
 <p>Having a table with too many <code>NULL</code>s complicates operations such as <code>joins</code> or
@@ -64,10 +64,10 @@ Phone(_phone_id_, *human_id, number)
 <p>One of the most important problems that normalization solves is the update
 anomalies.</p>
 
-<h2 id="Update%20Anomalies">Update Anomalies</h2>
+<h2 id="update-anomalies">Update Anomalies</h2>
 
 <p>The update anomalies happen when a bad design makes it complicated to update,
-insert or delete data. It&#39;s very related to the redundancy problem.</p>
+insert or delete data. It&#8217;s very related to the redundancy problem.</p>
 
 <p>There are three types of anomalies:</p>
 
@@ -77,10 +77,10 @@ insert or delete data. It&#39;s very related to the redundancy problem.</p>
 <li><strong>Modification anomalies</strong></li>
 </ul>
 
-<h3 id="Insertion%20Anomalies">Insertion Anomalies</h3>
+<h3 id="insertion-anomalies">Insertion Anomalies</h3>
 
 <p>A table has insertion anomalies when adding a new row with certain attributes
-requires the existence of other attributes. It&#39;s produced when there&#39;s an
+requires the existence of other attributes. It&#8217;s produced when there&#8217;s an
 artificial dependency between attributes.</p>
 
 <p>For example, in the table</p>
@@ -88,7 +88,7 @@ artificial dependency between attributes.</p>
 <pre><code>Book(_id_, editorial_name, editorial_adress, title, author, price)
 </code></pre>
 
-<p>it&#39;s not possible to just insert a new editorial, represented by the
+<p>it&#8217;s not possible to just insert a new editorial, represented by the
 attributes <code>editorial_name</code> and <code>editorial_adress</code>, without adding a new
 <code>title</code>, <code>author</code> and <code>price</code>. To fix it you can split the table in two:</p>
 
@@ -96,19 +96,19 @@ attributes <code>editorial_name</code> and <code>editorial_adress</code>, withou
 Book(_id_, title, author, price, *editorial)
 </code></pre>
 
-<h3 id="Delete%20Anomalies">Delete Anomalies</h3>
+<h3 id="delete-anomalies">Delete Anomalies</h3>
 
 <p>A delete anomaly happens when deleting some data in a table can produce the
-unintended side effect of deleting other data from the database. It&#39;s produced
+unintended side effect of deleting other data from the database. It&#8217;s produced
 by a bad design in the database in which a table includes some attributes it
-shouldn&#39;t. For example, when an entity is modeled by a set of attributes
+shouldn&#8217;t. For example, when an entity is modeled by a set of attributes
 within a table for another identity.</p>
 
 <pre><code>Company(department_name, department_building, _employee_id_, employee_salary)
 </code></pre>
 
 <p>In the <code>Company</code> table above, a department is modeled as the two attributes
-<code>department_name</code> and <code>department_building</code>. It&#39;s possible that by deleting an
+<code>department_name</code> and <code>department_building</code>. It&#8217;s possible that by deleting an
 employee, for example the last employee in a department, a department
 disappears. To remove that delete anomaly, the <code>Company</code> relation could be
 broken into two tables, one modeling departments and one modeling employees:</p>
@@ -117,7 +117,7 @@ broken into two tables, one modeling departments and one modeling employees:</p>
 Department(_department_name_, department_building)
 </code></pre>
 
-<h3 id="Modification%20Anomalies">Modification Anomalies</h3>
+<h3 id="modification-anomalies">Modification Anomalies</h3>
 
 <p>This anomaly makes changing tuples annoying. If the table has a bad design,
 changing one row forces the programmer to change other rows for the sake of
@@ -127,7 +127,7 @@ big problem: all of those redundant copies need to be updated as well.</p>
 <pre><code>Company(department_name, department_building, _employee_id_, employee_salary)
 </code></pre>
 
-<p>If the department changes it&#39;s name, every row in the <code>Company</code> table
+<p>If the department changes it&#8217;s name, every row in the <code>Company</code> table
 containing that department needs to be changed. The same fix works here:</p>
 
 <pre><code>Employee(_employee_id_, employee_salary, *department_name)
@@ -138,11 +138,11 @@ Department(_department_name_, department_building)
 
 <p>One way to avoid most of these problems is to use an ER model to create the
 design and then transform it into a relational model; that way entities are
-matched to tables and redundancy is greatly reduced. It&#39;s not imposible for
+matched to tables and redundancy is greatly reduced. It&#8217;s not imposible for
 database design errors to appear while following the ER to MR transformation,
 but it reduces the probability.</p>
 
-<h2 id="Normalization%20Process">Normalization Process</h2>
+<h2 id="normalization-process">Normalization Process</h2>
 
 <p>The normalization process is about detecting dependencies between attributes
 in tables in a scheme and split those tables into new ones arranging the
@@ -153,7 +153,7 @@ redundancy.</p>
 dependencies</a> and are set by
 the programmer using real world knowledge about the entities modeled.</p>
 
-<h3 id="Some%20definitions">Some definitions</h3>
+<h3 id="some-definitions">Some definitions</h3>
 
 <p>Given two attributes <code>X</code> and <code>Y</code> in a schema <code>R</code> a functional dependency
 between <code>X</code> and <code>Y</code>, denoted as <code>X-&#62;Y</code>, means that for every possible relation
@@ -162,7 +162,7 @@ set <code>r</code> (set of tuples in <code>R</code>) and two tuples <code>t1</co
 <pre><code>t1[X]=t2[X] =&#62; t1[Y]=t2[Y]
 </code></pre>
 
-<p>When that property holds it&#39;s said that <code>Y</code> is functionally dependent on <code>X</code>,
+<p>When that property holds it&#8217;s said that <code>Y</code> is functionally dependent on <code>X</code>,
 or that <code>X</code> determines <code>Y</code>.</p>
 
 <p>Functional dependencies are not derived from a particular <code>r</code> but from
@@ -173,7 +173,7 @@ the set of attributes <code>X</code> functions as a key for other attributes <co
 
 <p>If <code>X-&#62;R</code> then <code>X</code> is a <a href="https://wikipedia.org/wiki/Superkey">superkey</a>. If
 there is no <code>Z</code> in <code>X</code> which <code>Z-&#62;R</code>, then <code>X</code> is a key. The set of all keys is
-known as a schema&#39;s <a href="https://wikipedia.org/wiki/Candidate_key">candidate
+known as a schema&#8217;s <a href="https://wikipedia.org/wiki/Candidate_key">candidate
 keys</a>. A <a href="https://wikipedia.org/wiki/Primary_key">primary
 key</a> is chosen among the candidate
 keys.</p>
@@ -188,7 +188,7 @@ not determined by <code>Z</code>.</p>
 <p>A functional dependency <code>X-&#62;Y</code> is parcial if there is a <code>Z</code> in <code>X</code> that
 <code>Z-&#62;Y</code>. Oherwise, the dependency is said to be full.</p>
 
-<h2 id="Normal%20Forms">Normal Forms</h2>
+<h2 id="normal-forms">Normal Forms</h2>
 
 <p>A <a href="https://wikipedia.org/wiki/Database_normalization#Normal_form">normal form</a>
 is a property of a table that increases the probability of it beign a good
@@ -206,16 +206,16 @@ the modification anomalies.</p>
 <li><a href="https://wikipedia.org/wiki/Boyce%E2%80%93Codd_normal_form">BCNF</a></li>
 </ul>
 
-<h3 id="1NF:%20first%20normal%20form">1NF: first normal form</h3>
+<h3 id="1nf-first-normal-form">1NF: first normal form</h3>
 
-<p>A table is in 1NF if all it&#39;s attributes are atomic. This means that this form
-doesn&#39;t allow multivalues or composite attributes.</p>
+<p>A table is in 1NF if all it&#8217;s attributes are atomic. This means that this form
+doesn&#8217;t allow multivalues or composite attributes.</p>
 
 <p>Usually, modern database tables are already in 1NF.</p>
 
-<h3 id="2NF:%20second%20normal%20form">2NF: second normal form</h3>
+<h3 id="2nf-second-normal-form">2NF: second normal form</h3>
 
-<p>A schema <code>R</code> is in 2NF if it&#39;s in 1NF and no non-prime attribute is partially
+<p>A schema <code>R</code> is in 2NF if it&#8217;s in 1NF and no non-prime attribute is partially
 dependent on any key.</p>
 
 <p>A non-prime attribute can be thought of as providing information but not
@@ -224,7 +224,7 @@ key, then they are storing data about an entity which can be identify with
 part of said key. Then, we can think that that key can be split into several
 sets and separating them into tables along with the other attributes.</p>
 
-<p>Let&#39;s take the following schema:</p>
+<p>Let&#8217;s take the following schema:</p>
 
 <pre><code>R(A1, A2, A3, A4, A5, A6)
 </code></pre>
@@ -234,8 +234,8 @@ sets and separating them into tables along with the other attributes.</p>
 <pre><code>{A1, A2}-&#62;A3, A1-&#62;A, A2-&#62;A5, A2-&#62;A6
 </code></pre>
 
-<p>The non-prime attributes are <code>A3</code> to <code>A6</code>. It&#39;s primary keys are <code>{A1, A2}</code>.
-<code>R</code> does not conform with the 2NF because <code>A4</code> it&#39;s partialy functionally
+<p>The non-prime attributes are <code>A3</code> to <code>A6</code>. It&#8217;s primary keys are <code>{A1, A2}</code>.
+<code>R</code> does not conform with the 2NF because <code>A4</code> it&#8217;s partialy functionally
 dependent with the primary key and <code>A5</code> is also.</p>
 
 <p><code>R</code> can be refined to comply with the 2NF by separating into:</p>
@@ -245,9 +245,9 @@ R2(_A1_, A4)
 R3(_A2_, A5, A6)
 </code></pre>
 
-<h3 id="3NF:%20third%20normal%20form">3NF: third normal form</h3>
+<h3 id="3nf-third-normal-form">3NF: third normal form</h3>
 
-<p>A relation schema <code>R</code> is in 3NF if it&#39;s in 2NF and for any non-trivial <code>X-&#62;A</code>
+<p>A relation schema <code>R</code> is in 3NF if it&#8217;s in 2NF and for any non-trivial <code>X-&#62;A</code>
 on <code>R</code> then one of the following is true:</p>
 
 <ul>
@@ -266,7 +266,7 @@ relations:</p>
 R2(_A2_, A3)
 </code></pre>
 
-<h3 id="BCNF:%20Boyce-Codd%20normal%20form">BCNF: Boyce-Codd normal form</h3>
+<h3 id="bcnf-boyce-codd-normal-form">BCNF: Boyce-Codd normal form</h3>
 
 <p>A relation schema <code>R</code> is in BCNF if for all non-trivial functional dependency
 <code>X-&#62;Y</code> in <code>R</code>, <code>X</code> has to be a superkey.</p>

@@ -8,18 +8,18 @@
 	<title>ncb.ar</title>
 </head>
 <body>
-<h1 id="Introduction">Introduction</h1>
+<h1 id="introduction">Introduction</h1>
 
 <p>An operating system is a program that controls the hardware resources in one
 or more computers. It gives programmers a simpler interface to the hardware
 and other programs. It implements concepts such as <em>processes</em> or <em>files</em> ; it
-manages resources so the programmer doesn&#39;t need to.</p>
+manages resources so the programmer doesn&#8217;t need to.</p>
 
 <p>The abstract interface implemented by an operating system helps in:</p>
 
 <ul>
 <li><em>Portability:</em> a program can <em>open</em> , <em>read</em> , <em>write</em> or <em>close</em> a file without having to control the hardware or worrying what fileystem the file is in. The same can be said about protocols for communicating with devices, the details of some hardware (e.g. the speed rotation of a hard drive). </li>
-<li><em>Security:</em> the integrity of an user&#39;s data, the reliability of the services, etc., is easier when an operating system is in charge of managing processes, memory, file system access, user sessions, etc. </li>
+<li><em>Security:</em> the integrity of an user&#8217;s data, the reliability of the services, etc., is easier when an operating system is in charge of managing processes, memory, file system access, user sessions, etc. </li>
 </ul>
 
 <p>The operating system consist of a <em>kernel</em> and a set of tools for the user.
@@ -27,13 +27,13 @@ The kernel is the low level code which interacts directly with the hardware,
 has full access to the hardware, etc. A kernel by itself is not very useful,
 at least from the user perspective; a set of tools, called <em>system programs</em> ,
 are also considered to be part of the operating system. What is part of the
-operating system and what isn&#39;t, is not very clear, e.g. is the compiler part
+operating system and what isn&#8217;t, is not very clear, e.g. is the compiler part
 of the operating system? and a standard library? the editors?. It gets more
 confusing in the case of microkernels, exokernels, etc.</p>
 
 <p>Here, the term operating system is used interchageably with kernel.</p>
 
-<h4 id="Computer%20hardware">Computer hardware</h4>
+<h4 id="computer-hardware">Computer hardware</h4>
 
 <pre><code>    +--------+           +-----+         +-----+
     | memory | &#60;-------&#62; | bus | &#60;-----&#62; | I&#47;O |
@@ -48,16 +48,16 @@ confusing in the case of microkernels, exokernels, etc.</p>
 <p>This simplified model applies to most computers used everyday.</p>
 
 <p>A <em>bus</em> is a pathway where information can be sent and received. They carry
-data between the memory, the devices, and the cpu&#39;s. Of course, there&#39;s
+data between the memory, the devices, and the cpu&#8217;s. Of course, there&#8217;s
 actually several buses, such as the internal buses connecting the components
-of the cpus, the one between the memory and the cpu&#39;s, and others. Different
+of the cpus, the one between the memory and the cpu&#8217;s, and others. Different
 buses usually have different technologies and protocols, due to their design
 constraints: does it need to be fast? carry a lot of data? or be resistant to
 errors?. When the cpu needs to talk to I&#47;O devices to carry some operation,
 such as painting a pixel in a monitor or print a document, the data will flow
 from the cpu, to the bus into the device (of course, the opposite flow is also
 possible). Given that several elements of the system access the bus
-concurrently some protocol is needed to make sure the information doesn&#39;t get
+concurrently some protocol is needed to make sure the information doesn&#8217;t get
 corrupted.</p>
 
 <p>The I&#47;O devices are the physical interface between the computer and the
@@ -65,7 +65,7 @@ outside world; the monitor, printer, keyboard, mouse are all I&#47;O devices.
 Typically, each device is connected to a controller and the operating system
 is in charge of knowing the exact operations the device is capable of and how
 to induce them, by writing bytes in their control and data registers. Device
-<em>drivers</em> are operating system&#39;s components in charge of talking to some
+<em>drivers</em> are operating system&#8217;s components in charge of talking to some
 device or class of devices.</p>
 
 <p>A program is a list of instructions the cpu understands. These instructions
@@ -79,7 +79,7 @@ this is all the cpu does:</p>
 
 <p>The main memory (ram) is divided into cells, each one with an address.</p>
 
-<p>An <em>interruption</em> is an asynchronous calling for the processor&#39;s attention. It
+<p>An <em>interruption</em> is an asynchronous calling for the processor&#8217;s attention. It
 causes the cpu to jump to an <em>interrupt handler</em> , which is an operating
 system routine (another list of instructions stored in memory).</p>
 
@@ -95,7 +95,7 @@ processor.</p>
 
 <p>In the context of operating systems, one of the most important interruptions
 is launched by the internal clock. A circuit sends electronic pulses in fixed
-intervals of time, causing the cpu to interrupt it&#39;s normal cycle and execute
+intervals of time, causing the cpu to interrupt it&#8217;s normal cycle and execute
 the interrupt handler. This address can be set by the programmer (using a
 table of function pointers) or is fixed by the computer architecture. The list
 of instructions executed by the processor while interrupted are called
@@ -111,12 +111,12 @@ programmers can cause these interruptions (by using system calls or by causing
 an exception or a trap, which are similar concepts) to interact with the
 hardware or processes safely through the operating system.</p>
 
-<p>Modern cpu&#39;s offer several mechanisms for protecting a <em>multiprogramming
+<p>Modern cpu&#8217;s offer several mechanisms for protecting a <em>multiprogramming
 system</em> , i.e a system with several programs running concurrently. One of the
 most important of all is the concept of <em>processor modes</em>. Some architectures,
 such as amd64, have at least two modes: <em>kernel mode</em> and <em>user mode</em>. The
 first one is a processor state in which all resources of the cpu architecture
-are accessible. It&#39;s in this mode that the kernel runs, because it has access
+are accessible. It&#8217;s in this mode that the kernel runs, because it has access
 to all memory addresses, instructions, etc. The other mode is the user mode.
 In it, programs have a set of instructions and resources they can use. If a
 process breaks the rules set by the architecture, it triggers an exception in
@@ -187,7 +187,7 @@ process instructions and data. this memory is usualy called <em>RAM</em> memory
 (Random Access Memory). It is orders of magnitude faster than disks, but
 orders of magnitude slower than cpus. To solve this problem, the processor
 uses a <em>cache</em> , that is, an intermediate, faster, storage unit which saves
-recent results, so it&#39;s not necessary to fetch them again from memory until
+recent results, so it&#8217;s not necessary to fetch them again from memory until
 they become invalid or need to be removed due to space constraints</p>
 
 <p>The allocation an deallocation of chached objects. follows rules defined by
@@ -213,7 +213,7 @@ information is lost. Therefore programs must be saved into more permanent
 storage, such as magnetic or solid state disks to persist data between
 shutdowns. This is usually where the kernel resides: when the system boots, a
 special program called the bootloader, saved in a special region of the disk,
-loads the operating system kernel into memory and starts it&#39;s execution.</p>
+loads the operating system kernel into memory and starts it&#8217;s execution.</p>
 
 <p>In multiprogrammed operating systems, several processes are using the memory
 at the same time. This could create a lot of problems and security concerns,
@@ -241,15 +241,15 @@ appearance to each process that they have almost the entire memory to
 themselves. Others mechanisms than paging, suc as segmentation, exist, but are
 not often used.</p>
 
-<p>Much of the operating system&#39;s interaction with processes is trying to protect
+<p>Much of the operating system&#8217;s interaction with processes is trying to protect
 them from each other.</p>
 
-<h4 id="Operating%20System%20Services">Operating System Services</h4>
+<h4 id="operating-system-services">Operating System Services</h4>
 
 <ul>
-<li><em>Process management</em> : the operating system must manage several processes executing in the same environment, keeping the system as a whole running securely and efficiently. This processes sometimes need to communicate with each other, so it must also provide the mechanisms to achieve <em>inter-process communications</em> and the resources to do it safely and correctly. It&#39;s possible that some processes behave badly (intentionally or not) so there must be a way to control them.</li>
+<li><em>Process management</em> : the operating system must manage several processes executing in the same environment, keeping the system as a whole running securely and efficiently. This processes sometimes need to communicate with each other, so it must also provide the mechanisms to achieve <em>inter-process communications</em> and the resources to do it safely and correctly. It&#8217;s possible that some processes behave badly (intentionally or not) so there must be a way to control them.</li>
 <li><em>Memory Management</em> : the memory is a vital resource of a computer system, and therefore, must be managed efficiently and securely. This can be done by the operating system in a transparent way, without the knowledge of the application programmer, using the tools the processor provides for such a purpose.</li>
-<li><em>I&#47;O</em> : to be useful a computer needs to take in input from outside it&#39;s system and return an output to the outside world. As explained earlier, to help programmers to focus on solving new problems, and given their complicated interfaces, hardware is managed by the operating system. Among this devices used to interface with the real world, the storage devices such as disks, are specially important. The operating system must provide simple interfaces to work with them. </li>
+<li><em>I&#47;O</em> : to be useful a computer needs to take in input from outside it&#8217;s system and return an output to the outside world. As explained earlier, to help programmers to focus on solving new problems, and given their complicated interfaces, hardware is managed by the operating system. Among this devices used to interface with the real world, the storage devices such as disks, are specially important. The operating system must provide simple interfaces to work with them. </li>
 <li><em>Security</em> : the operating system must enforce rules so that a multi-user and multiprogrammed system is usable and secure.</li>
 </ul>
 </body>

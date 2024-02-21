@@ -8,7 +8,7 @@
 	<title>ncb.ar</title>
 </head>
 <body>
-<h1 id="ER%20Model">ER Model</h1>
+<h1 id="er-model">ER Model</h1>
 
 <p>The <strong>Entity Relationship model</strong>
 (<a href="https://wikipedia.org/wiki/Entity%E2%80%93relationship_model">ER</a>) is a
@@ -30,12 +30,12 @@ entities, connected by a relationship between them stating which book was
 rented by what client. The book entity could have the following attributes:
 name, ISBN, author and id.</p>
 
-<h2 id="Entities%20and%20Attributes">Entities and Attributes</h2>
+<h2 id="entities-and-attributes">Entities and Attributes</h2>
 
 <p>Since the ER is an abstract model for understanding information about reality
 the choice of entities depends on the problem at hand. If we need to model a
 library to know where all the books are then it makes sense to use the client
-entity, so it&#39;s posible to store who borrowed some books; on the other hand,
+entity, so it&#8217;s posible to store who borrowed some books; on the other hand,
 if we also need to know the different sections a library has, then maybe the
 section entity needs to be added.</p>
 
@@ -43,7 +43,7 @@ section entity needs to be added.</p>
 (called <strong>entity type</strong> ) and the datapoints that conform to that template
 (collectively called <strong>entity set</strong> ). The term entity referes to both, which
 can be confusing. When defining an entity in the ER model we usually define an
-entity type by providing it&#39;s attributes and a name. To give an example let&#39;s
+entity type by providing it&#8217;s attributes and a name. To give an example let&#8217;s
 use the ERD:</p>
 
 <pre><code>  (author, ISBN, name, id)
@@ -66,11 +66,11 @@ Again, but this time modeling the clients of the library:</p>
 </code></pre>
 
 <p>This model defines an entity <code>CLIENT</code> with attributes <code>name</code> and <code>client_id</code>.
-From now on I&#39;ll probably make no distinction between entity set and entity
+From now on I&#8217;ll probably make no distinction between entity set and entity
 type, the difference should be clear in context.</p>
 
 <p>The ER model describes two types of entities, a <strong>weak entity</strong> and a <strong>strong
-entity</strong>. I&#39;ve never been in a situation where I needed to use a weak entity,
+entity</strong>. I&#8217;ve never been in a situation where I needed to use a weak entity,
 so I wont explain the difference here.</p>
 
 <p>Some attributes can be defined as <strong>keys</strong> which are those with different
@@ -96,7 +96,7 @@ specific book entity: we use one of its keys.</p>
 &#60;George Orwell, 1984, 978-0-141-03614-4, 3&#62;
 </code></pre>
 
-<p>but this one doesn&#39;t:</p>
+<p>but this one doesn&#8217;t:</p>
 
 <pre><code>&#60;Ray Bradbury, Fahrenheit 451, 84-7634-095-8, 1&#62;
 &#60;Pierre Boulle, The planet of the apes, 84-7634-078-8, 2&#62;
@@ -121,7 +121,7 @@ specific book entity: we use one of its keys.</p>
 &#60;George Orwell, 1984, 978-0-141-03614-4, 3&#62;
 </code></pre>
 
-<p>but this one doesn&#39;t:</p>
+<p>but this one doesn&#8217;t:</p>
 
 <pre><code>&#60;Ray Bradbury, Fahrenheit, 451 84-7634-095-8, 1&#62;
 &#60;Ray Bradbury, Fahrenheit, 84-7634-078-8, 2&#62;
@@ -131,7 +131,7 @@ specific book entity: we use one of its keys.</p>
 <p>because <code>&#60;Ray Bradbury, Fahrenheit&#62;</code>, is a key set of attributes and are
 repeated in the entity set.</p>
 
-<p>Several attributes can conform a key, such as <code>&#60;author,name&#62;</code>, I&#39;ll use [] to
+<p>Several attributes can conform a key, such as <code>&#60;author,name&#62;</code>, I&#8217;ll use [] to
 mark those attributes:</p>
 
 <pre><code>  ([author, name], ISBN, _id_)
@@ -142,7 +142,7 @@ mark those attributes:</p>
 </code></pre>
 
 <p>If an author can have more than one book with the same title, the last model
-wouldn&#39;t be appropiate.</p>
+wouldn&#8217;t be appropiate.</p>
 
 <p>The attributes of an entity are the information about them we want to store;
 their defining characteristics according to our needs.</p>
@@ -150,7 +150,7 @@ their defining characteristics according to our needs.</p>
 <p>If we are modeling a database for a bussiness, then we probably need to store
 entities such as employees and products, but. About an employee we might need
 information such as their full name, salary, hiring date, employee number,
-etc.; from a product, it&#39;s name, internal code, price, stock, etc. These
+etc.; from a product, it&#8217;s name, internal code, price, stock, etc. These
 properties are represented as attributes in the respective entities:</p>
 
 <pre><code>  (name, salary, hire_date, _number_)
@@ -178,7 +178,7 @@ properties are represented as attributes in the respective entities:</p>
 </code></pre>
 
 <p>Some attributes could have unknown or non existent values for some entities,
-for example, if we haven&#39;t made an inventory of some products yet, we don&#39;t
+for example, if we haven&#8217;t made an inventory of some products yet, we don&#8217;t
 want to put a random number in their <code>stock</code> attribute. The solution is to use
 a <code>NULL</code> value, so, the following database is contemplated by our model also:</p>
 
@@ -191,7 +191,7 @@ a <code>NULL</code> value, so, the following database is contemplated by our mod
 &#60;El Aleph, 3, 30, 10&#62;
 </code></pre>
 
-<p>Depending on the semantics, a constraint of can-be-null or can&#39;t-be-null can
+<p>Depending on the semantics, a constraint of can-be-null or can&#8217;t-be-null can
 be added, using some meta language (such as UML) or in plain language:
 <code>Product.name can be null</code>.</p>
 
@@ -218,11 +218,11 @@ attributes), and are represented as:</p>
                              +--------+
 </code></pre>
 
-<p>These attributes are together because they are semanticaly related. I haven&#39;t
-used this types of attributes much, so I&#39;m not going to write much about them;
-if I ever find them useful, I&#39;ll add more information.</p>
+<p>These attributes are together because they are semanticaly related. I haven&#8217;t
+used this types of attributes much, so I&#8217;m not going to write much about them;
+if I ever find them useful, I&#8217;ll add more information.</p>
 
-<h2 id="Relationships">Relationships</h2>
+<h2 id="relationships">Relationships</h2>
 
 <p>Most interesting databases contain not only entities and their attributes but
 also relationships between them: an employee employer relationship, a student
@@ -230,7 +230,7 @@ professor relationship, and so on. A relationship means several concepts in
 real life join together in some way and that union is an important piece of
 information.</p>
 
-<p>Let&#39;s say we need to model an employee and company relationship. A reasonable
+<p>Let&#8217;s say we need to model an employee and company relationship. A reasonable
 model could be:</p>
 
 <pre><code>  (name, salary, hire_date, _number_)
@@ -247,7 +247,7 @@ model could be:</p>
 +-------+
 </code></pre>
 
-<p>But we are missing the connection between them, we can&#39;t know what <code>EMPLOYEE</code>
+<p>But we are missing the connection between them, we can&#8217;t know what <code>EMPLOYEE</code>
 works on what <code>COMPANY</code>. A refinment:</p>
 
 <pre><code>  (name, salary, hire_date, _company_, _number_)
@@ -266,7 +266,7 @@ works on what <code>COMPANY</code>. A refinment:</p>
 
 <p>This is better, now we can answer important questions such as where does this
 employee works?, or what employees does this company has?. But a company is an
-entity, not an attribute; it&#39;s too important in our model. The way we
+entity, not an attribute; it&#8217;s too important in our model. The way we
 represent this relationship is:</p>
 
 <pre><code>  (name, salary, hire_date, _number_)
@@ -302,9 +302,9 @@ In the previous example, the model admits a situation like:</p>
 <p>In this database, the relationship <code>works_in</code>, defined between the entity
 types <code>EMPLOYEE</code> and <code>COMPANY</code>, contains only two elements. This relationship
 is said to be <strong>binary</strong> because it involves two entity types; the amount of
-entity types participating in a relationships is called it&#39;s <strong>degree</strong>.</p>
+entity types participating in a relationships is called it&#8217;s <strong>degree</strong>.</p>
 
-<p>The definition doesn&#39;t say <code>Ei != Ej</code> for <code>0 &#60; i,j &#60;= n</code>, so a relationship
+<p>The definition doesn&#8217;t say <code>Ei != Ej</code> for <code>0 &#60; i,j &#60;= n</code>, so a relationship
 between the same entity type is possible and they are called <strong>recursive</strong>. A
 classical example is the <code>works for</code> relationship, in which two <code>EMPLOYEES</code>
 are related to each other:</p>
@@ -328,7 +328,7 @@ works_for = {
 </code></pre>
 
 <p>In the example of the <code>EMPLOYEE</code>, <code>COMPANY</code> and <code>works_in</code> relationship I
-added a N and a 1 to the lines representing the relationship, they are it&#39;s
+added a N and a 1 to the lines representing the relationship, they are it&#8217;s
 <strong>cardinality</strong>. The example again:</p>
 
 <pre><code>  (name, salary, hire_date, _number_)
@@ -450,11 +450,11 @@ is partial which means not every entity of type <code>TEACHER</code> has to be t
 <code>CLASS</code>. On the other hand, the <code>CLASS</code> involvement in the <code>teaches</code>
 relationship is total, so every <code>CLASS</code> has to have an assosiated <code>TEACHER</code>.
 In other words, under the previous model, no entity of type <code>CLASS</code> can exist
-in the database if it&#39;s not associated with a <code>TEACHER</code> entity but a <code>TEACHER</code>
+in the database if it&#8217;s not associated with a <code>TEACHER</code> entity but a <code>TEACHER</code>
 can exist who is not teaching a class.</p>
 
 <p>Sometimes the relationships themselves can have their own attributes. This is
-useful when we need to store some data which doesn&#39;t really belong to any of
+useful when we need to store some data which doesn&#8217;t really belong to any of
 the entities participating but in the relationship between them. The notation
 is</p>
 
@@ -484,7 +484,7 @@ cardinality and participation constraints. When an entity type has a
 cardinality in a ternary relationship it refers to pairs of the other
 participationg entities.</p>
 
-<p>An example will clarify things. Let&#39;s say we are building a system in which we
+<p>An example will clarify things. Let&#8217;s say we are building a system in which we
 have a set of questions created by us, users and answers. A possible model
 could be:</p>
 

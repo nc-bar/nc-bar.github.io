@@ -8,12 +8,12 @@
 	<title>ncb.ar</title>
 </head>
 <body>
-<h1 id="SQL">SQL</h1>
+<h1 id="sql">SQL</h1>
 
 <p>The <strong>Structured Query Language</strong> (<a href="https://wikipedia.org/wiki/SQL">SQL</a>) is a
 standard declarative language used in relational database managers.</p>
 
-<p>A relational database, as we&#39;ve seen already, is a set of relations and
+<p>A relational database, as we&#8217;ve seen already, is a set of relations and
 constraints. Usually, the mathematical definition is replaced by the more
 convenient and practical notion of tables, rows and columns; sql helps us
 interact with those concepts. We can create and delete tables, update or
@@ -21,14 +21,14 @@ retrieve rows and much more.</p>
 
 <p>The sql model is not a perfect match of the relational model. One important
 deviation is that in sql a table is not a set of tuples, given that it allows
-repeated tuples, so it&#39;s more like a list of tuples.</p>
+repeated tuples, so it&#8217;s more like a list of tuples.</p>
 
-<p>There are a lot of RDBMS, open source and&#47;or commercial. I&#39;ll use
-<a href="https://sqlite.org">sqlite</a> since it&#39;s easy to install and use. It has a
+<p>There are a lot of RDBMS, open source and&#47;or commercial. I&#8217;ll use
+<a href="https://sqlite.org">sqlite</a> since it&#8217;s easy to install and use. It has a
 simple architecture: through a terminal program or a library, sql statements
 are interpreted and executed and all the data is stored in one file.</p>
 
-<h2 id="Tables%20and%20constraints">Tables and constraints</h2>
+<h2 id="tables-and-constraints">Tables and constraints</h2>
 
 <p>The fist thing needed to structure data following a relational paradigm are
 tables. In them, columns are defined which implement relation attributes, each
@@ -46,7 +46,7 @@ first column was defined as an <code>integer</code> primary key. The <code>autoi
 means each new row will automatically get an unique integer. The second
 column, named <code>title</code>, is a <code>text</code> field and was defined as <code>not null</code>.</p>
 
-<p>When creating a table, it&#39;s possible to define several attributes as a primary
+<p>When creating a table, it&#8217;s possible to define several attributes as a primary
 key, by using <code>primary_key(attr_1,...,attr_n)</code>.</p>
 
 <p>To relate two tables, a column can be defined as a <strong><code>foreign key</code></strong>. For
@@ -106,8 +106,8 @@ columns. When used in several columns, like</p>
 );
 </code></pre>
 
-<p>it means that two rows can&#39;t have the same values in the <code>title</code> and
-<code>author_name</code> simultaneously. The <code>unique</code> constraint doesn&#39;t apply to the
+<p>it means that two rows can&#8217;t have the same values in the <code>title</code> and
+<code>author_name</code> simultaneously. The <code>unique</code> constraint doesn&#8217;t apply to the
 <code>null</code> value.</p>
 
 <p>The <strong><code>not null</code></strong> is a type of constraint in the values that an attribute can
@@ -154,9 +154,9 @@ rename to new_name;
 add column column_name type ...;
 </code></pre>
 
-<h2 id="SQL%20Data%20types">SQL Data types</h2>
+<h2 id="sql-data-types">SQL Data types</h2>
 
-<p>The values in the rows, it&#39;s attributes, have a type. A type is a set of
+<p>The values in the rows, it&#8217;s attributes, have a type. A type is a set of
 possible values.</p>
 
 <p>This are the datatypes supported by the <code>sqlite3</code> database:</p>
@@ -202,9 +202,9 @@ defined. The <a href="https://wikipedia.org/wiki/SQL">predefined types</a> are:<
 <li><p>xml</p></li>
 </ul>
 
-<h2 id="Changing%20and%20adding%20data">Changing and adding data</h2>
+<h2 id="changing-and-adding-data">Changing and adding data</h2>
 
-<p>In sql adding data is made through the <strong><code>insert</code></strong> statement. Let&#39;s take the
+<p>In sql adding data is made through the <strong><code>insert</code></strong> statement. Let&#8217;s take the
 <code>book</code> table in the previous section:</p>
 
 <pre><code>    create table book (
@@ -213,7 +213,7 @@ defined. The <a href="https://wikipedia.org/wiki/SQL">predefined types</a> are:<
 );
 </code></pre>
 
-<p>Let&#39;s insert a row into that table:</p>
+<p>Let&#8217;s insert a row into that table:</p>
 
 <pre><code>insert into book (title, book_id) values ("Lord of the flies", 1);
 </code></pre>
@@ -242,7 +242,7 @@ defined. The <a href="https://wikipedia.org/wiki/SQL">predefined types</a> are:<
 select statement;
 </code></pre>
 
-<p>For example, let&#39;s assume we have a table <code>book2</code> which contains book titles
+<p>For example, let&#8217;s assume we have a table <code>book2</code> which contains book titles
 and author names; then we decided to split those tables into two: a <code>book</code>
 table and an <code>author</code> table, to accomodate the requirement that some books
 could have more than one author. To accomplish that, after creating the
@@ -269,13 +269,13 @@ set title = "1984"
 where title = "1985";
 </code></pre>
 
-<p>For deleting one or several rows there&#39;s a statement called <strong><code>delete</code></strong> :</p>
+<p>For deleting one or several rows there&#8217;s a statement called <strong><code>delete</code></strong> :</p>
 
 <pre><code>delete from table_name
 [where condition];
 </code></pre>
 
-<p>Let&#39;s remove all books with an empty title, since they are probably mistakes:</p>
+<p>Let&#8217;s remove all books with an empty title, since they are probably mistakes:</p>
 
 <pre><code>delete from book
 where title = &#39;&#39;;
@@ -284,14 +284,14 @@ where title = &#39;&#39;;
 <p><strong>Be careful</strong> : if no <code>where</code> condition filters the selection all the rows
 are deleted.</p>
 
-<h2 id="Example%20database">Example database</h2>
+<h2 id="example-database">Example database</h2>
 
 <p>In order to show how to retrieve data, this section introduces an example
 database.</p>
 
-<p>We&#39;re going to model a book selling tool. Bookshops can sign up to sell books
+<p>We&#8217;re going to model a book selling tool. Bookshops can sign up to sell books
 and clients can buy them and leave reviews (one per book). Each bookshop will
-have a unique owner. Each book can have one or more authors. Let&#39;s create an
+have a unique owner. Each book can have one or more authors. Let&#8217;s create an
 Entity Relational Model with this information:</p>
 
 <pre><code>(gender, name, _owner_id_)                  (gender, name, _author_id_)
@@ -569,16 +569,16 @@ insert into reviewed_by (rev_id, book_id, client_id) values
     (4, 5, 4);
 </code></pre>
 
-<p>To run this code with the <code>sqlite3</code> client, save the code into a file, let&#39;s
+<p>To run this code with the <code>sqlite3</code> client, save the code into a file, let&#8217;s
 say <code>db.sql</code> and run</p>
 
 <pre><code>sqlite3 db.db &#60; db.sql
 </code></pre>
 
-<p>it will create the <code>db.db</code> file containing the database. I&#39;ll be using this
+<p>it will create the <code>db.db</code> file containing the database. I&#8217;ll be using this
 database to illustrate sql concepts.</p>
 
-<h2 id="Querying%20the%20database">Querying the database</h2>
+<h2 id="querying-the-database">Querying the database</h2>
 
 <p>Just as in relational algebra, getting information from a relational database
 involves composing transformations to groups of tables.</p>
@@ -601,7 +601,7 @@ from client c
 where c.gender = &#39;F&#39;;
 </code></pre>
 
-<p>means retrieving all the female clients&#8217; names and database id&#39;s saved in the
+<p>means retrieving all the female clients&#8217; names and database id&#8217;s saved in the
 database. In relational algebra we would do</p>
 
 <pre><code>π[name, client_id](σ[gender = &#39;F&#39;](client))
@@ -646,7 +646,7 @@ from client c
 where c.gender = &#39;M&#39;;
 </code></pre>
 
-<p>If there&#39;s no <code>where</code> condition, then there&#39;s no filter, so all the rows are
+<p>If there&#8217;s no <code>where</code> condition, then there&#8217;s no filter, so all the rows are
 used. If more than one table is specified in the <code>from</code>, then the cartessian
 product is taken.</p>
 
@@ -697,16 +697,16 @@ value logic:</p>
 +-----+------+
 </code></pre>
 
-<h2 id="Joins">Joins</h2>
+<h2 id="joins">Joins</h2>
 
-<p>The relations between tables are very important for the relational model. It&#39;s
+<p>The relations between tables are very important for the relational model. It&#8217;s
 very usual that a query involves two or more tables related through foreign
 keys. For example, if we want a list of the books an author wrote, we need to
 involve three tables: <code>book</code>, <code>author</code> and <code>written_by</code>.</p>
 
-<p>Lets get all the books written by Philip K. Dick. Since we didn&#39;t define the
-<code>name</code> field as a <code>primary key</code> or <code>unique</code>, we can&#39;t use the name to look for
-it, so, let&#39;s use <code>author_id</code> (in this case, the value is 2). We&#39;ll take the
+<p>Lets get all the books written by Philip K. Dick. Since we didn&#8217;t define the
+<code>name</code> field as a <code>primary key</code> or <code>unique</code>, we can&#8217;t use the name to look for
+it, so, let&#8217;s use <code>author_id</code> (in this case, the value is 2). We&#8217;ll take the
 <code>written by</code> table and the <code>book</code> table, then filter the cartesian product
 between both by keeping only those rows with the same <code>author_id</code> field.</p>
 
@@ -722,7 +722,7 @@ Ubik
 </code></pre>
 
 <p>Another common pattern is joining two tables to get a list of the relationship
-tuples. For example, let&#39;s get all the tuples of the <code>owns</code> relationship:</p>
+tuples. For example, let&#8217;s get all the tuples of the <code>owns</code> relationship:</p>
 
 <pre><code>select o.name, b.name
 from owner o, bookshop b
@@ -805,10 +805,10 @@ F|Mary Sue|3|2020-05-021 21:08:00.000|Recommended.|4
 </code></pre>
 
 <p>There are other kinds of joins, such as the full outer join, which puts a null
-in the rows which don&#39;t match, be it right or left. <code>sqlite3</code> doesn&#39;t
+in the rows which don&#8217;t match, be it right or left. <code>sqlite3</code> doesn&#8217;t
 implement this type of join.</p>
 
-<h2 id="Set%20Operations">Set Operations</h2>
+<h2 id="set-operations">Set Operations</h2>
 
 <p>There are three set operations implemented in <code>sqlite3</code>: <code>union</code>, <code>except</code> and
 <code>intersect</code>. The <strong><code>union</code></strong> operator combines the result from two querys into
@@ -817,9 +817,9 @@ that is, they have the same amount of columns and each column have the same
 types (or types which can be casted to the other).</p>
 
 <p>There are two versions of the <code>union</code> operator: <code>union</code> and <code>union all</code>. The
-first one gets rid of repeated rows, while the second doesn&#39;t.</p>
+first one gets rid of repeated rows, while the second doesn&#8217;t.</p>
 
-<p>Let&#39;s use <code>union</code> to get all the names of the authors, clients and owners in
+<p>Let&#8217;s use <code>union</code> to get all the names of the authors, clients and owners in
 our database:</p>
 
 <pre><code>select name from author union select name from client union select name from owner;
@@ -843,7 +843,7 @@ William Golding
 
 <p>The <strong><code>intersect</code></strong> operation takes the result of two querys and returns those
 rows which occur in both querys. Again, the result of the querys have to be
-compatible in the same way as before. Let&#39;s change the last query but using
+compatible in the same way as before. Let&#8217;s change the last query but using
 <code>intersect</code>:</p>
 
 <pre><code>select name from author union select name from client union select name from owner;
@@ -868,7 +868,7 @@ Truman Capote
 William Golding
 </code></pre>
 
-<h2 id="Views">Views</h2>
+<h2 id="views">Views</h2>
 
 <p>A view is an abstract table constructed as a <code>select</code> query. When reading the
 data in a view, the client is actually reading the result of a query on actual
@@ -922,7 +922,7 @@ Gestarescala
 Ubik
 </code></pre>
 
-<h2 id="Functions%20and%20Triggers">Functions and Triggers</h2>
+<h2 id="functions-and-triggers">Functions and Triggers</h2>
 
 <p>The following model is taken from the database example</p>
 
@@ -935,7 +935,7 @@ Ubik
 (gender, name, _client_id_, email)
 </code></pre>
 
-<p>It states that for every <code>Client</code> there&#39;s a <code>Profile</code>. So, if a <code>Client</code> is
+<p>It states that for every <code>Client</code> there&#8217;s a <code>Profile</code>. So, if a <code>Client</code> is
 added to the database, a <code>Profile</code> needs to be added first. The software
 client which is using the database, such as a web application, needs to be
 aware of this and follow those steps.</p>
@@ -958,7 +958,7 @@ end;
 </code></pre>
 
 <p>The <code>last_insert_rowid()</code> is a function provided by <code>sqlite3</code> which returns
-the row id of the most recently inserted row in the current conection. Let&#39;s
+the row id of the most recently inserted row in the current conection. Let&#8217;s
 test it by creating a new <code>Client</code></p>
 
 <pre><code>insert into client (gender, name, email, profile) values (&#39;&#39;, &#39;new&#39;, &#39;new@user.com&#39;, null);
@@ -973,7 +973,7 @@ Mary Sue|||
 new|created|in the|trigger!
 </code></pre>
 
-<p>The <code>Cient</code> allows a <code>null</code> value in the <code>profile</code> column, which we don&#39;t
+<p>The <code>Cient</code> allows a <code>null</code> value in the <code>profile</code> column, which we don&#8217;t
 actually want, since it has total participation. This choice was taken because
 <code>sqlite3</code> lacks the <code>instead of</code> trigger in a table, so we need to let the
 database create a record for the user first, using <code>null</code> in profile and then
@@ -982,7 +982,7 @@ the trigger fixes it. Another solution could be to store a foreign key to
 table has the potential to be used by other tables, such as <code>Author</code> or
 <code>Owner</code>, so the design is more extensible this way.</p>
 
-<h1 id="Transactions">Transactions</h1>
+<h1 id="transactions">Transactions</h1>
 
 <p>A <a href="https://wikipedia.org/wiki/Database_transaction">transaction</a> is an
 undivisable unit of work in a database. A set of operations can be made atomic
@@ -995,8 +995,8 @@ unchanged.</p>
 
 <ul>
 <li><p>Atomic: all operations within a transaction are executed as if they were one. If one fails, the database remains unchanged and if the transaction ends succesfully all operations were performed.</p></li>
-<li><p>Consistent: changes produced by the operations inside a transaction doesn&#39;t leave the database in an inconsistent state.</p></li>
-<li><p>Islation: transactions are isolated from each other and can be performed concurrently (one doesn&#39;t collide with the other).</p></li>
+<li><p>Consistent: changes produced by the operations inside a transaction doesn&#8217;t leave the database in an inconsistent state.</p></li>
+<li><p>Islation: transactions are isolated from each other and can be performed concurrently (one doesn&#8217;t collide with the other).</p></li>
 <li><p>Durable: the changes in the database produced by the operations within a successful transaction are stored in the database permanently.</p></li>
 </ul>
 
@@ -1025,7 +1025,7 @@ begin transaction
 commit transaction
 </code></pre>
 
-<p>If the operations in this simple example wouldn&#39;t be inside a transaction,
+<p>If the operations in this simple example wouldn&#8217;t be inside a transaction,
 another client trying to interact with the same rows could create a
 concurrency problem.</p>
 </body>

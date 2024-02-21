@@ -8,23 +8,23 @@
 	<title>ncb.ar</title>
 </head>
 <body>
-<h3 id="Process%20Management">Process Management</h3>
+<h3 id="process-management">Process Management</h3>
 
-<h4 id="Multiprogramming">Multiprogramming</h4>
+<h4 id="multiprogramming">Multiprogramming</h4>
 
 <p>Most modern operating systems have multiprogramming, meaning that several
 programs may be running concurrently, sharing hardware resources. This kinds
 of systems are also the most interesting ones in relation to processes.</p>
 
 <p>In a multiprogrammed system, several programs in execution have to use the
-shared resources correctly, without rendering the system unusable; also, it&#39;s
+shared resources correctly, without rendering the system unusable; also, it&#8217;s
 possible to make this units of execution talk to each other, achieving Inter
-Process Communication (IPC). The cpu or cpu&#39;s can be used more fully, thanks
+Process Communication (IPC). The cpu or cpu&#8217;s can be used more fully, thanks
 to the non blocking nature of this kinds of systems: a process waiting for the
 completion of an I&#47;O transaction can be temporarily ignored by the processor,
 and another one executed in its place.</p>
 
-<h4 id="Introduction%20to%20processes">Introduction to processes</h4>
+<h4 id="introduction-to-processes">Introduction to processes</h4>
 
 <p>A process is a program in execution. The same program can have several
 processes executing its instructions. To be useful a process needs resources
@@ -46,7 +46,7 @@ transform it into a process, that is, the operating system creates internal
 structures to represent the running program; this also entails allocating the
 resources needed for a new process.</p>
 
-<p>Let&#39;s say I have the following C program:</p>
+<p>Let&#8217;s say I have the following C program:</p>
 
 <pre><code>#include &#60;stdio.h&#62;
 
@@ -61,16 +61,16 @@ executable:</p>
 <pre><code>$ gcc hello.c -o hello
 </code></pre>
 
-<p>The generated executable&#39;s format is elf in Linux. In a shell, we can execute
+<p>The generated executable&#8217;s format is elf in Linux. In a shell, we can execute
 it:</p>
 
 <pre><code>$ .&#47;hello
 Hello, world
 </code></pre>
 
-<h4 id="Process%20states">Process states</h4>
+<h4 id="process-states">Process states</h4>
 
-<p>During it&#39;s lifetime, a process changes its state. A state is one of the
+<p>During it&#8217;s lifetime, a process changes its state. A state is one of the
 possible activities a process can be doing:</p>
 
 <ul>
@@ -100,9 +100,9 @@ NEW -------------&#62; READY -----------------&#62; RUNNING ---------------&#62;
                 event                          waiting for an event (I&#47;O, etc)
 </code></pre>
 
-<p>Let&#39;s see an example in Linux. The following program, when launched, will
+<p>Let&#8217;s see an example in Linux. The following program, when launched, will
 start in the NEW state, then when Linux finishes creating the process, it will
-pass to the READY state, then when it&#39;s assigned a processor will go to the
+pass to the READY state, then when it&#8217;s assigned a processor will go to the
 RUNNING state. Given that Linux can preemptively move a process from RUNNING
 to READY, the process might bounce between those states, but lets ignore that.
 Then when the user is asked to enter a character, the process will then block,
@@ -135,14 +135,14 @@ a
 you entered: a
 </code></pre>
 
-<h4 id="The%20tree%20of%20processes">The tree of processes</h4>
+<h4 id="the-tree-of-processes">The tree of processes</h4>
 
 <p>Operating systems usually expos several system calls related to processes. One
 important operation the user might want to do is the creation of processes.</p>
 
 <p>A typical example of a tool used to create other processes is the shell. This
 program instructs the operating system to create a process, passing a
-program&#39;s path as an argument.</p>
+program&#8217;s path as an argument.</p>
 
 <p>In Linux it takes 2 system calls to create a process, <code>fork</code> and <code>exec</code>. The
 fork system call creates a process which is a copy of its parent and shares
@@ -177,7 +177,7 @@ int main() {
 </code></pre>
 
 <p>is a program which creates a copy of itself using <code>fork</code> and then replaces
-it&#39;s own code with the program <code>&#47;bin&#47;ls&#47;</code> using the <code>execvp</code> system call.</p>
+it&#8217;s own code with the program <code>&#47;bin&#47;ls&#47;</code> using the <code>execvp</code> system call.</p>
 
 <p>When a process creates another one, they join a tree like relationship between
 themselves and all others; usually, the one on top is called the parent and
@@ -196,24 +196,24 @@ those it creates the children:</p>
 
 <p>here PID10 and PID20 are children or sub-processes of PID1.</p>
 
-<p>In some operating systems, specially those influenced by Unix, there&#39;s a
+<p>In some operating systems, specially those influenced by Unix, there&#8217;s a
 process, usually called init, which receives the pid 1 and is the parent of
 all the other processes in the system.</p>
 
 <p>The init process performs some administrative tasks and is in charge of
 launching some daemons, processes running in the background constantly. For
-example, when a machine is used as a web server, it&#39;s useful that every time
+example, when a machine is used as a web server, it&#8217;s useful that every time
 it boots it launches a http server, rather that needing someone at a terminal
 to execute the server every time. This is achieved by telling the init process
 to execute some program in the background.</p>
 
-<p>There isn&#39;t a standard defined for what the init system should do, and so
-there&#39;s a lot of different programs: systemd,
+<p>There isn&#8217;t a standard defined for what the init system should do, and so
+there&#8217;s a lot of different programs: systemd,
 <a href="https://github.com/vulk/runit/blob/master/src/runit.c">runit</a>, OpenRC, etc.
 Of course, any program could be init, but not all can prepare a system to be
 useful.</p>
 
-<p>When a process terminates, some operating systems also terminate all it&#39;s sub-
+<p>When a process terminates, some operating systems also terminate all it&#8217;s sub-
 processes, while others make the sub-processes direct descendants of the init
 process. Process termination can be done by the process itself using a system
 call usually named <code>exit</code>. Some operating systems provide mechanisms to kill
@@ -270,7 +270,7 @@ int main() {
 }
 </code></pre>
 
-<p>Given that the 4 created processes never end, to watch the program work we&#39;ll
+<p>Given that the 4 created processes never end, to watch the program work we&#8217;ll
 use the <code>kill</code> Linux utility to kill the sub-processes, unlocking the main
 process and letting it end. Assuming the program is in a file called main, we
 can open two terminals and in one write</p>
@@ -280,7 +280,7 @@ $ .&#47;main
 I&#39;m 10581, don&#39;t delete me, I have children!
 </code></pre>
 
-<p>and in the other one, we use the <code>ps</code> program to figure out the children pid&#39;s
+<p>and in the other one, we use the <code>ps</code> program to figure out the children pid&#8217;s
 and send a signal to stop them:</p>
 
 <pre><code>$ ps a | grep main
@@ -308,9 +308,9 @@ I&#39;m 10581, don&#39;t delete me, I have children!
 10585 killed!
 </code></pre>
 
-<h4 id="A%20process%20in%20memory">A process in memory</h4>
+<h4 id="a-process-in-memory">A process in memory</h4>
 
-<p>There&#39;s at least two important operations the kernel does to take a program
+<p>There&#8217;s at least two important operations the kernel does to take a program
 and spawn a process based on it. Setting some structures needed to keep meta
 information about the processes like their state (RUNNING, WAITING, etc.),
 memory layout information (each process might have its own virtual memory
@@ -357,7 +357,7 @@ the text segment is the list of instructions defined by the programmer (or the
 compiler most likely).</p>
 
 <p>If the kernel wants to begin the execution of a program, it needs to point the
-cpu&#39;s instruction pointer to the first instruction in the text segment, point
+cpu&#8217;s instruction pointer to the first instruction in the text segment, point
 the stack register to the correct memory address, and a lot more.</p>
 
 <p>The operating system needs a way to keep track of the
@@ -381,14 +381,14 @@ filed: list of open files
 
 <p>probably implemented in a <code>struct</code> if the kernel is written in C.</p>
 
-<h4 id="Process%20Scheduling">Process Scheduling</h4>
+<h4 id="process-scheduling">Process Scheduling</h4>
 
 <p>The scheduler is the part of the operating system that decides which process
-gets cpu time next. It&#39;s composed of an algorithm making the decision and the
+gets cpu time next. It&#8217;s composed of an algorithm making the decision and the
 dispatcher in charge of instructing the cpu to execute the chosen process.</p>
 
 <p>By switching the processes in execution the system can use the cpu more fully.
-To provide an example, let&#39;s assume a computer with only one cpu and two
+To provide an example, let&#8217;s assume a computer with only one cpu and two
 processes and the simplest scheduler. A process is allowed to run until it
 exits or makes an I&#47;O request, and while the process waits for the I&#47;O
 termination, the cpu is idle. Graphically:</p>
@@ -454,7 +454,7 @@ cpu burst is a time slice in which the cpu is executing instructions from a
 process while an I&#47;O burst is when a process is waiting for data to be
 transferred from or to a device.</p>
 
-<p>There&#39;s two types of schedulers, preemptives and non preemptives (also called
+<p>There&#8217;s two types of schedulers, preemptives and non preemptives (also called
 non cooperatives). The non preemptives are the ones which carry out scheduling
 policy when a process is in the waiting state or when one terminates. The
 preemptive ones can decide to change the process running in other times, for
@@ -463,16 +463,16 @@ example when an interrupt happens.</p>
 <p>Preemptive ones usually need some hardware capabilities, such as a clock
 sending periodical signals causing an interruptions.</p>
 
-<p>There&#39;s a lot of different scheduling algorithms which are appropriate for
+<p>There&#8217;s a lot of different scheduling algorithms which are appropriate for
 different uses and kind of systems.</p>
 
 <p>Each time a process gets from the running state to the ready or waiting state,
 a context switch occurs. The scheduler needs to save the state of the current
 process, which includes the general purpose register values, the instruction
-pointer, into memory. This takes time which is not really useful, because it&#39;s
+pointer, into memory. This takes time which is not really useful, because it&#8217;s
 just bookkeeping to make the system function.</p>
 
-<h4 id="Scheduler%20algorithms">Scheduler algorithms</h4>
+<h4 id="scheduler-algorithms">Scheduler algorithms</h4>
 
 <p>The purpose of the system determines what properties the scheduler has to
 have. Some systems are made to optimize the amount of processes that finish
@@ -489,16 +489,16 @@ most used are:</p>
 <li><em>Cpu use</em>. The percentage of time the cpu was executing instructions.</li>
 </ul>
 
-<p>As mentioned before there&#39;s a lot of different ways a system can choose what
+<p>As mentioned before there&#8217;s a lot of different ways a system can choose what
 is the next process who gets an idle cpu.</p>
 
-<h4 id="First-Come,%20First-Serve%20(FCFS)">First-Come, First-Serve (FCFS)</h4>
+<h4 id="first-come-first-serve-fcfs">First-Come, First-Serve (FCFS)</h4>
 
 <p>This algorithm is one of the simplest ways an scheduler can function. It
 consists of a queue of processes ordered by the time they enter the ready
 state, and when a cpu is vacant, the top of the queue is put there.</p>
 
-<p>Let&#39;s see an example. Processes p1 and p2 enter the ready state</p>
+<p>Let&#8217;s see an example. Processes p1 and p2 enter the ready state</p>
 
 <pre><code>executing
    ^
@@ -539,27 +539,27 @@ between the user launching a command and getting some kind of response; this
 happens because a CPU intensive process could prevent those processes which
 need interactivity.</p>
 
-<h4 id="Shortest%20job%20first%20(SJF)">Shortest job first (SJF)</h4>
+<h4 id="shortest-job-first-sjf">Shortest job first (SJF)</h4>
 
 <p>SJF is specially useful for <a href="https://en.wikipedia.org/wiki/Batch_processing">batch
 systems</a>, which execute a set
-of programs that don&#39;t need user interaction. To use it the running time or
+of programs that don&#8217;t need user interaction. To use it the running time or
 the cpu bursts of each process need to be known, or at least an accurate
 approximation is needed. When a cpu is available the algorithm chooses the
 process with the smallest cpu burst.</p>
 
 <p>The fact that the bursts times need to be known is a big disadvantage, it has
-a couple of interesting properties. For example, it&#39;s possible to
+a couple of interesting properties. For example, it&#8217;s possible to
 mathematically prove that this scheduler minimizes the average waiting time.</p>
 
-<h4 id="Round%20Robin">Round Robin</h4>
+<h4 id="round-robin">Round Robin</h4>
 
 <p>Round Robin is a preemptive scheduler which gives the same cpu time to all the
 processes before preemptively deallocating it from the cpu. So, it simply goes
 through the ready (circular) queue and gives the same maximum time to all of
 them before taking it out of the cpu. That fixed amount of time is called a
 quantum. Doing a <a href="https://en.wikipedia.org/wiki/Gantt_chart">Gantt chart</a>;
-let&#39;s assume we have 3 processes with a running time of 4 milliseconds without
+let&#8217;s assume we have 3 processes with a running time of 4 milliseconds without
 using I&#47;O, with a quantum of 2 milliseconds:</p>
 
 <pre><code>+-----------------------------+
@@ -574,16 +574,16 @@ running time.</p>
 
 <p>The most important parameter is the quantum. If the quantum is too big, then
 the system responsivity goes down because a process could use too much cpu
-time at once, for example during a cpu burst. If it&#39;s too small, then the time
+time at once, for example during a cpu burst. If it&#8217;s too small, then the time
 spent in context switching is too much in proportion with the amount of useful
-cpu execution time. It&#39;s interest to note that if the quantum tens to
+cpu execution time. It&#8217;s interest to note that if the quantum tens to
 infinity, then RR is FCFS.</p>
 
-<h4 id="Multilevel%20feedback%20queue">Multilevel feedback queue</h4>
+<h4 id="multilevel-feedback-queue">Multilevel feedback queue</h4>
 
 <p>Just like RR keeps processes in a queue and assigns them a time slice to use
-before being deallocated. But Multilevel Feedback Queue has several queue&#39;s
-each with a different priority and quantum. First, there&#39;s a priority among
+before being deallocated. But Multilevel Feedback Queue has several queue&#8217;s
+each with a different priority and quantum. First, there&#8217;s a priority among
 the queues, when a queue of greater priority runs out of ready processes, the
 scheduler goes to the next.</p>
 
@@ -591,7 +591,7 @@ scheduler goes to the next.</p>
 into the queues with greater priority and the ones which have need too much
 cpu are moved to the bottom.</p>
 
-<h4 id="Inter%20process%20communication%20(IPC)">Inter process communication (IPC)</h4>
+<h4 id="inter-process-communication-ipc">Inter process communication (IPC)</h4>
 
 <p>The processes in a running system are not completely isolated, the operating
 system provides mechanisms for them to interact; those mechanisms are called
@@ -605,11 +605,11 @@ processes can read and write to it.</p>
 
 <p>The best way to explain them is to show different implementations.</p>
 
-<h3 id="POSIX%20shared%20memory">POSIX shared memory</h3>
+<h3 id="posix-shared-memory">POSIX shared memory</h3>
 
 <p><a href="https://en.wikipedia.org/wiki/POSIX">POSIX</a> is a family of standards created
 by the <a href="https://en.wikipedia.org/wiki/POSIX">IEEE</a>. It consists of several
-api&#39;s for services a system has to implement. Some are related to operating
+api&#8217;s for services a system has to implement. Some are related to operating
 system features, syscalls, C libraries or tools and it aims to provide a
 portable interface for programmers. POSIX shared memory is a standard api
 implementing shared memory.</p>
@@ -634,15 +634,15 @@ object can then be mapped into other processes&#8217; own memory using <code>mma
 finally exchange information between each other. The second function,
 <code>shm_unlink</code>, removes an object created by <code>shm_unlink</code>.</p>
 
-<p>In order to do something complicated using shared memory, it&#39;s necessary to
+<p>In order to do something complicated using shared memory, it&#8217;s necessary to
 understand come synchronization concepts, like semaphores or atomic variables;
-since I haven&#39;t discussed them yet, the following example will be very simple,
+since I haven&#8217;t discussed them yet, the following example will be very simple,
 just to demonstrate how it works.</p>
 
 <p>The example consists of two programs. The client takes user input and writes
 it to the shared buffer, while the server constantly prints the contents of
-said buffer each second. This way we don&#39;t need to be worried about
-synchronization since we don&#39;t really expect any kind of correct result.</p>
+said buffer each second. This way we don&#8217;t need to be worried about
+synchronization since we don&#8217;t really expect any kind of correct result.</p>
 
 <p>The client sends a string to the server:</p>
 
@@ -769,16 +769,16 @@ gcc client.c -o client -lrt -lpthread
 <pre><code>.&#47;client
 </code></pre>
 
-<p>As mentioned earlier, I didn&#39;t include much synchronization logic because it
-wasn&#39;t explained yet. For example, I&#39;m assuming that the client asks the mutex
+<p>As mentioned earlier, I didn&#8217;t include much synchronization logic because it
+wasn&#8217;t explained yet. For example, I&#8217;m assuming that the client asks the mutex
 after it was created, which might not be true: recall from the scheduling
-section that there&#39;s the possibility that the scheduler is going to take the
+section that there&#8217;s the possibility that the scheduler is going to take the
 server out of the cpu and then run the client before the mutex was created.
-But, it&#39;s very unlikely and the example is enough to show two processes
-interacting using shared memory. If you don&#39;t know what a mutex is, you can
+But, it&#8217;s very unlikely and the example is enough to show two processes
+interacting using shared memory. If you don&#8217;t know what a mutex is, you can
 just skip this paragraph.</p>
 
-<h3 id="Unix%20pipes">Unix pipes</h3>
+<h3 id="unix-pipes">Unix pipes</h3>
 
 <p>Pipes are a unidirectional mechanism for IPC. It consist of an object with two
 endpoints, one for writing and the other for reading:</p>
@@ -799,8 +799,8 @@ apply the Unix philosophy of software design:</p>
 </ul>
 
 <p>The Unix philosophy is about making software composable. Pipes aid in this
-design by making it possible to stitch one program&#39;s output to another
-program&#39;s input. For example, Linux shells usually provide the programmer with
+design by making it possible to stitch one program&#8217;s output to another
+program&#8217;s input. For example, Linux shells usually provide the programmer with
 the operator <code>|</code> which creates a pipe and redirects the standard output (the
 output that eventually gets printed in the terminal) to the standard input
 (usually the input from the keyboard) of another program, so we can do things
@@ -872,10 +872,10 @@ comes out of <code>fd[1]</code>.</p>
 most visible. Every program can use pipes, because they are a service provided
 by the operating system.</p>
 
-<h4 id="Signals">Signals</h4>
+<h4 id="signals">Signals</h4>
 
 <p>Another way to make programs interact with each other is through the use of
-signals. A signal is similar to a notification, in that it&#39;s an asynchronous
+signals. A signal is similar to a notification, in that it&#8217;s an asynchronous
 calling for attention, in this case, of a process. Each signal can be one of a
 set of predefined types. After receiving a signal, the process&#8217; signal handler
 for the appropriate signal type is executed; in this way, a signal is similar
@@ -893,7 +893,7 @@ otherwise the default signal handler is used.</p>
 Actually is a bit more complicated, the full details are in the <code>man</code> pages.</p>
 
 <p>Linux provides a program using that system call wrapper to send processes
-signals from the shell. The tool is also named <code>kill</code> and it&#39;s used like this:</p>
+signals from the shell. The tool is also named <code>kill</code> and it&#8217;s used like this:</p>
 
 <pre><code>kill -s signal_code pid
 </code></pre>
@@ -982,13 +982,13 @@ terminate a process, now it just prints SIGINT ARRIVED; this is because if you
 are using bash, after pressing ctrl+c, bash sends a <code>SIGINT</code> to the process in
 the terminal foreground.</p>
 
-<p>Some signals can&#39;t be handled by user defined functions, for example <code>SIGSTOP</code>
+<p>Some signals can&#8217;t be handled by user defined functions, for example <code>SIGSTOP</code>
 and <code>SIGKILL</code>.</p>
 
-<h4 id="Unix%20sockets">Unix sockets</h4>
+<h4 id="unix-sockets">Unix sockets</h4>
 
 <p>Unix sockets allow bidirectional communication between processes. This means
-that, if there&#39;s two processes p1 and p2 communicating using sockets, then p1
+that, if there&#8217;s two processes p1 and p2 communicating using sockets, then p1
 can send a message to p2 and p2 can send a message to p1, in both cases using
 the same object. In other words, if pipes are one way streets, sockets are two
 way streets.</p>
@@ -999,7 +999,7 @@ and responding to requests for clients. The client processes will, knowing the
 socket filename, open a connection.</p>
 
 <p>Sockets can send messages with several underlying protocols, such as TCP and
-UDP, but to keep things local, I&#39;ll discuss only the Unix sockets in which
+UDP, but to keep things local, I&#8217;ll discuss only the Unix sockets in which
 several local processes talk to each other with the kernel being the
 intermediary.</p>
 
@@ -1064,10 +1064,10 @@ server process &#60;-----&#62;  |socket| &#60;-----&#62; |socket| &#60;-----&#62
                         +------+         +------+
 </code></pre>
 
-<p>After the connection between two sockets is established, it&#39;s possible to
+<p>After the connection between two sockets is established, it&#8217;s possible to
 <code>read</code> and <code>write</code> the sockets to send or get information.</p>
 
-<p>Let&#39;s see an example server:</p>
+<p>Let&#8217;s see an example server:</p>
 
 <pre><code>#include &#60;stdlib.h&#62;
 #include &#60;stdio.h&#62;
@@ -1189,10 +1189,10 @@ int main(int argc, char *argv[]) {
 }
 </code></pre>
 
-<h4 id="Multi-threaded%20programming">Multi-threaded programming</h4>
+<h4 id="multi-threaded-programming">Multi-threaded programming</h4>
 
 <p>A thread, by definition, is the smallest object which can be independently
-scheduled by the operating system. It&#39;s made of a set of cpu registers, a
+scheduled by the operating system. It&#8217;s made of a set of cpu registers, a
 stack and a program counter, which means that any processor is composed of at
 least one thread. In most operating systems today, a process can have more
 than one thread; in that case, a single process can have several scheduled
@@ -1214,7 +1214,7 @@ concurrently by using threads:</p>
 +----------------------------------------+
 </code></pre>
 
-<p>By being independently scheduled and having it&#39;s own copy of the resources
+<p>By being independently scheduled and having it&#8217;s own copy of the resources
 needed for execution, while sharing the code, data and file descriptors (among
 other things), we can execute different procedures in the same code
 concurrently, but in a lightweight manner. While one thread is in charge of
@@ -1248,9 +1248,9 @@ additional IPC mechanisms are needed to share information.</p>
 
 <p>Using threads is not without drawbacks. The sharing of the data between each
 thread, which result in economy of resources, means that programmers have to
-be very careful not to mess with other thread&#39;s data.</p>
+be very careful not to mess with other thread&#8217;s data.</p>
 
-<h4 id="Multi-threading%20models">Multi-threading models</h4>
+<h4 id="multi-threading-models">Multi-threading models</h4>
 
 <p>Multi-threading can be implemented in the kernel or at the user level. Most
 modern operating systems such as Linux or OpenBSD, offer services for creating
@@ -1263,12 +1263,12 @@ apply. If we need the kernel to create a thread, a context switch is needed,
 thus increasing the overhead; also, adding code to the kernel makes it more
 prone to bugs and increases its complexity, which in turn makes it more
 difficult and expensive to maintain. On the other hand having the kernel
-manage multi-threading allow any computer language to use it and that&#39;s
+manage multi-threading allow any computer language to use it and that&#8217;s
 simpler than requiring every runtime to implement their own. Also, there are
 some problems that user threads have: what happens if a thread crashes? since
 they are scheduled by a process, all other threads are affected too. User
 threads are cheaper to create, given that no context switch is needed, so
-that&#39;s an advantage.</p>
+that&#8217;s an advantage.</p>
 
 <p>There are compromises between the previous two models. If the kernel provides
 multi-threading, the following systems can be implemented:</p>
@@ -1292,7 +1292,7 @@ multi-threading, the following systems can be implemented:</p>
 
 <p>This models is the most complicated one to implement, because it needs the
 scheduler in the kernel and each kernel thread also has to schedule each user
-level thread. It&#39;s main advantage is that it makes switches between threads
+level thread. It&#8217;s main advantage is that it makes switches between threads
 very fast, by not needing to call the kernel to block, and at the same time,
 the kernel could schedule some of those kernel threads into different cores,
 which could increase performance. This approach is used by many modern
@@ -1312,8 +1312,8 @@ k  k  k  k  k  k</p></li>
 </ul>
 
 <p>By having every thread be a kernel thread, the scheduler can better use
-multiple cpu&#39;s to speed up computation, by giving some threads its own cpu,
-this can&#39;t be done with user level thread management. The main disadvantage is
+multiple cpu&#8217;s to speed up computation, by giving some threads its own cpu,
+this can&#8217;t be done with user level thread management. The main disadvantage is
 that thread creation involves a system call, and so, higher overhead. Also,
 having too many kernel threads can overwhelm the system, by taking up too much
 cpu time. This type of threading is usually used by C and C++ programs.</p>
@@ -1327,7 +1327,7 @@ cpu time. This type of threading is usually used by C and C++ programs.</p>
 <p>|  |  |  |  |  |  |  |  |
 |  |  |  |  |  |  |  |  |      t = thread</p>
 
-<h2 id="%7C%20%20%7C%20%20%7C%20%20%7C%20%20%7C%20%20%7C%20%20%7C%20%20%7C%20%20%7C%20%20%20%20%20%20k%20=%20kernel%20thread">|  |  |  |  |  |  |  |  |      k = kernel thread</h2>
+<h2 id="k-kernel-thread">|  |  |  |  |  |  |  |  |      k = kernel thread</h2>
 
 <pre><code>        |
         |
@@ -1339,10 +1339,10 @@ cpu time. This type of threading is usually used by C and C++ programs.</p>
 kernel is only called at process creation makes it very fast to change between
 threads and to create new ones. The problems of this model are mainly the fact
 that if the process blocks or crashes, the entire thread pool has to block or
-crash too, even if they don&#39;t need to; also, the kernel cant exploit multiple
-cpu&#39;s by scheduling several threads into several cpu&#39;s at the same time.</p>
+crash too, even if they don&#8217;t need to; also, the kernel cant exploit multiple
+cpu&#8217;s by scheduling several threads into several cpu&#8217;s at the same time.</p>
 
-<h3 id="POSIX%20Threads%20Programming">POSIX Threads Programming</h3>
+<h3 id="posix-threads-programming">POSIX Threads Programming</h3>
 
 <p>The pthread library implements the standard POSIX threads in Linux and other
 systems. In a nutshell, pthreads allows us to execute routines as a separate
@@ -1361,7 +1361,7 @@ Arguments:
 
 <p>In other words, if we want to create a new thread to execute a part of a
 program, we can wrap it into a routine and launch the thread using
-<code>pthread_create</code>. When it&#39;s time for the thread to end, it can call
+<code>pthread_create</code>. When it&#8217;s time for the thread to end, it can call
 <code>pthread_exit</code>:</p>
 
 <pre><code>void pthread_exit(void *retval);
@@ -1370,7 +1370,7 @@ Arguments:
     void *retval is the returning value of the thread
 </code></pre>
 
-<p>If the main process exits, all of it&#39;s threads are destroyed too, so it&#39;s
+<p>If the main process exits, all of it&#8217;s threads are destroyed too, so it&#8217;s
 important to wait for the threads to terminate before exiting. One way to do
 that is by using <code>pthread_join</code>, which blocks the calling thread (including
 the main thread) until the thread passed by argument exits:</p>
@@ -1383,8 +1383,8 @@ Arguments:
 </code></pre>
 
 <p>For a thread to be used by <code>pthread_join</code> it needs to be created as a joinable
-thread. By default, <code>pthread_create</code> creates them as joinable, but it&#39;s
-usually a good idea to explicitly define them that way so it&#39;s more portable.
+thread. By default, <code>pthread_create</code> creates them as joinable, but it&#8217;s
+usually a good idea to explicitly define them that way so it&#8217;s more portable.
 In order to do that the methods <code>pthread_attr_init</code>, <code>pthread_attr_destroy</code>
 and <code>pthread_attr_setdetachstate</code>. This methods are used to initialized,
 destroy and set the some data to the attributes passed to <code>pthread_create</code>..</p>
@@ -1482,10 +1482,10 @@ illustrates that a great deal of attention is needed for implementing
 multithreading (and concurrent) algorithms. In the next section a technique is
 shown that helps preventing this types of problems.</p>
 
-<p>For more information, <a href="https://computing.llnl.gov/tutorials/pthreads/">here&#39;s</a>
+<p>For more information, <a href="https://computing.llnl.gov/tutorials/pthreads/">here&#8217;s</a>
 a good introduction to pthreads.</p>
 
-<h4 id="Synchronization%20of%20concurrent%20processes">Synchronization of concurrent processes</h4>
+<h4 id="synchronization-of-concurrent-processes">Synchronization of concurrent processes</h4>
 
 <p>When several processes have access to the same piece of data, one process can
 interfere with another, causing incorrect and inconsistent results. This is
@@ -1493,7 +1493,7 @@ often called a <a href="https://en.wikipedia.org/wiki/Race_condition">race condi
 that is, the system is dependent on the timing of some events outside of our
 control (such as the scheduling of threads).</p>
 
-<p>For example, let&#39;s say we have an application and want to track the amount of
+<p>For example, let&#8217;s say we have an application and want to track the amount of
 registered users. For that, every time a new user signs up, the following
 procedure is launched:</p>
 
@@ -1506,7 +1506,7 @@ procedure is launched:</p>
 </code></pre>
 
 <p>In a sequential setting, the previous code saves the correct value into the
-global variable <code>users</code>. But, given that we don&#39;t want to block the entire
+global variable <code>users</code>. But, given that we don&#8217;t want to block the entire
 program for a sign up, we have to execute each request in parallel. Now that
 the global variable <code>users</code> is shared, both of this executions are possible,
 assuming an initial value of <code>users = n</code>:</p>
@@ -1531,14 +1531,14 @@ they were computed sequentially; it could correspond to the scheduler giving
 enough time to each thread to finish execution. In the second scenario, the
 scheduler gives an order of execution in which both threads copy the <code>users</code>
 variable into their own local variable, and then increment the same value,
-resulting in the wrong result. It&#39;s said that a concurrent process gives a
+resulting in the wrong result. It&#8217;s said that a concurrent process gives a
 wrong answer when no sequential order of execution could produce the same
 result.</p>
 
-<p>It&#39;s important to note that the problem is present at the instruction level of
-execution. Meaning, it&#39;s not a result of the particular programming language
+<p>It&#8217;s important to note that the problem is present at the instruction level of
+execution. Meaning, it&#8217;s not a result of the particular programming language
 semantics assumed. The scheduler can stop any process from executing (assuming
-it&#39;s preemptive) in between any consecutive instruction. The previous example,
+it&#8217;s preemptive) in between any consecutive instruction. The previous example,
 after compilation into a register based processor architecture would be
 something like:</p>
 
@@ -1548,31 +1548,31 @@ mov [users], r1
 </code></pre>
 
 <p>so the problem remains. In other words, concurrency break our implicit
-assumptions about atomic (as in can&#39;t be split) execution of sequential code;
+assumptions about atomic (as in can&#8217;t be split) execution of sequential code;
 now we need to pay attention to the possibility of other code touching our
 variables.</p>
 
-<h4 id="Critical%20section">Critical section</h4>
+<h4 id="critical-section">Critical section</h4>
 
 <p>A critical section is the part of a program that could potentially alter a
-shared resource, so if it&#39;s possible for two processes to execute the
+shared resource, so if it&#8217;s possible for two processes to execute the
 instructions within that area, then the results of the computation may be
-incorrect. To make sure this doesn&#39;t happen, a solution has to have these
+incorrect. To make sure this doesn&#8217;t happen, a solution has to have these
 properties:</p>
 
 <ul>
 <li>Mutual exclusion: only one process in the critical section at a time</li>
-<li>Bounded wait: a process waiting to enter the critical section can&#39;t wait indefinitely. In other words, there&#39;s a finite number of processes which can enter before it</li>
+<li>Bounded wait: a process waiting to enter the critical section can&#8217;t wait indefinitely. In other words, there&#8217;s a finite number of processes which can enter before it</li>
 <li>Progress: if no process is in the critical section, then one can enter without a waiting period</li>
 </ul>
 
-<p>There&#39;s an ingenious software based solution to this problem called <a href="https://en.wikipedia.org/wiki/Peterson%27s_algorithm">Petterson
+<p>There&#8217;s an ingenious software based solution to this problem called <a href="https://en.wikipedia.org/wiki/Peterson%27s_algorithm">Petterson
 algorithm</a>, but modern
 processor architectures provide a hardware based solution.</p>
 
-<h4 id="Test%20And%20Set">Test And Set</h4>
+<h4 id="test-and-set">Test And Set</h4>
 
-<p>A computation is said to be atomic if it can&#39;t be interrupted in the middle of
+<p>A computation is said to be atomic if it can&#8217;t be interrupted in the middle of
 its execution; some architectures define certain instructions as atomic,
 meaning their execution will not be interrupted in any way. Some of these
 instructions give the programmer a sort of anchor they can use to avoid the
@@ -1588,10 +1588,10 @@ performs:</p>
 }
 </code></pre>
 
-<p>Of course, if we compile this, there&#39;s no warranty the procedure will be
+<p>Of course, if we compile this, there&#8217;s no warranty the procedure will be
 atomic; this is only for demonstration. To avoid writing assembly code
 specific to one architecture, the examples will use the function in a c-like
-language and we&#39;ll assume the compiler translates the function into the
+language and we&#8217;ll assume the compiler translates the function into the
 appropriate instruction, making it atomic.</p>
 
 <p>Just for curiosity, in x86 processors the computation is implemented using
@@ -1609,14 +1609,14 @@ int main() {
 }
 </code></pre>
 
-<p>If there&#39;s a set of processes waiting to enter, eventually the first will
+<p>If there&#8217;s a set of processes waiting to enter, eventually the first will
 arrive at the <code>test_and_set</code> and will, atomically, read the lock and change it
 to 0, blocking the others, and since the initial value was 1, it will enter.
-Then, after leaving the critical section it&#39;ll put the lock variable to 1, so
+Then, after leaving the critical section it&#8217;ll put the lock variable to 1, so
 the process can repeat.</p>
 
 <p>Following that protocol, only one process may enter the critical section at
-once. To prove it, let&#39;s assume there&#39;s two processes, P and Q, in the
+once. To prove it, let&#8217;s assume there&#8217;s two processes, P and Q, in the
 critical section, at the same time and they are following the protocol. Then
 it must be true that both were at some point in the situation in which the
 test</p>
@@ -1624,20 +1624,20 @@ test</p>
 <pre><code>test_and_set(&#38;lock)
 </code></pre>
 
-<p>was 1 for both. If P entered before Q, and since P didn&#39;t leave before Q the
-critical section and therefore couldn&#39;t have set <code>lock = 1</code>, then
+<p>was 1 for both. If P entered before Q, and since P didn&#8217;t leave before Q the
+critical section and therefore couldn&#8217;t have set <code>lock = 1</code>, then
 <code>test_and_set(&#38;lock)</code> returned 0, because P also executed
 <code>test_and_set(&#38;lock)</code> and it atomically set lock to 0. Then the conclusion is
-that P couldn&#39;t enter before Q. It&#39;s easy to repeat the same reasoning but
-swapping P and Q, reaching the conclusion that Q couldn&#39;t enter before P. The
+that P couldn&#8217;t enter before Q. It&#8217;s easy to repeat the same reasoning but
+swapping P and Q, reaching the conclusion that Q couldn&#8217;t enter before P. The
 only possibility remaining is that they enter at the same time. But, since
-<code>test_and_set</code> is atomic, they couldn&#39;t have. Then, the assumption that P and
+<code>test_and_set</code> is atomic, they couldn&#8217;t have. Then, the assumption that P and
 Q were at some point in the critical section together must be false.</p>
 
-<p>It&#39;s also easy to note that, if a process waits (and the one in the critical
-section doesn&#39;t hang up), then eventually it will enter it&#39;s critical section
+<p>It&#8217;s also easy to note that, if a process waits (and the one in the critical
+section doesn&#8217;t hang up), then eventually it will enter it&#8217;s critical section
 (assuming a constant number of waiting processes). Furthermore, if no one is
-in it&#39;s critical section, one will be allowed to enter.</p>
+in it&#8217;s critical section, one will be allowed to enter.</p>
 
 <p>To finish this section, the following program fixes the user counting example
 from the introduction:</p>
@@ -1653,13 +1653,13 @@ void increase_user_count() {
 }
 </code></pre>
 
-<h4 id="Atomic%20variables">Atomic variables</h4>
+<h4 id="atomic-variables">Atomic variables</h4>
 
 <p>Just like <code>test_and_set</code>, some architectures provide sets of instructions over
-certain data types that are atomic, for example, integers. If that&#39;s the case,
+certain data types that are atomic, for example, integers. If that&#8217;s the case,
 either by using assembly or letting the compiler or interpreter handle it, the
 programmer can operate on those data types using those atomic instructions and
-avoid some race conditions. Let&#39;s go back to the user registration example
+avoid some race conditions. Let&#8217;s go back to the user registration example
 above:</p>
 
 <pre><code>void increase_user_count() {
@@ -1720,13 +1720,13 @@ time
 <a href="https://en.cppreference.com/w/c/language/atomic">C11</a> have support for
 defining atomic operations.</p>
 
-<h4 id="Semaphores">Semaphores</h4>
+<h4 id="semaphores">Semaphores</h4>
 
 <p>What happens if we follow the <code>test_and_set</code> (or similar) solution if the
 <code>critical_section</code> takes a long time to complete? Well the waiting processes
 are going to <code>while(test_and_set(&#38;lock))</code> until they are preempted by the
 scheduler. All those cycles are wasted, and would have been better used by
-another process in the waiting queue that doesn&#39;t need to wait for the lock.
+another process in the waiting queue that doesn&#8217;t need to wait for the lock.
 This is bad for the responsiveness of the whole system and bad for the waiting
 process itself because usually schedulers diminish the priority of cpu
 intensive processes.</p>
@@ -1760,29 +1760,29 @@ with 2 operations:</p>
 </ul>
 
 <p>A semaphore contains a number defined at the moment of creation and is
-affected by it&#39;s two operations in the following way, assuming <code>s</code> is the
+affected by it&#8217;s two operations in the following way, assuming <code>s</code> is the
 semaphore:</p>
 
 <ul>
 <li>when a process executes <code>s.wait()</code> the number in the semaphore decreases by one and if the result is negative, the process blocks.</li>
-<li>if a process executes <code>s.signal()</code> the number increases and if there&#39;s some process waiting, one of them will wake up.</li>
+<li>if a process executes <code>s.signal()</code> the number increases and if there&#8217;s some process waiting, one of them will wake up.</li>
 </ul>
 
 <p>The implementations of semaphores vary between operating systems and
 programming languages, but the main idea is the same.</p>
 
-<p>To clarify, let&#39;s say there&#39;s 3 processes {p1, p2 , p3} sharing a semaphore
+<p>To clarify, let&#8217;s say there&#8217;s 3 processes {p1, p2 , p3} sharing a semaphore
 <code>s</code> initiated with a 1. Then <code>p1</code> does <code>s.wait()</code>, then the value inside <code>s</code>
 will be 0. Then <code>p2</code> and <code>p3</code> execute <code>s.wait()</code>, and since in both cases the
 number in the semaphore is negative, they both block, leaving the number in
--2. Now, after <code>p1</code> did it&#39;s job (for example <code>critical_section()</code>) it
+-2. Now, after <code>p1</code> did it&#8217;s job (for example <code>critical_section()</code>) it
 performs a <code>s.signal()</code>, at which point the semaphore will contain the number
 -1 and one of {<code>p2</code>, <code>p3</code>} will be chosen, eventually, by the scheduler to
-wake up, do it&#39;s job and then do <code>s.signal()</code>, leaving the number at 0 and
+wake up, do it&#8217;s job and then do <code>s.signal()</code>, leaving the number at 0 and
 wake up <code>p1</code>, who will also <code>s.signal()</code>, finally leaving the number at 1
 (just like in the beginning).</p>
 
-<p>It&#39;s important to note that the value inside the semaphore can&#39;t be retrieved,
+<p>It&#8217;s important to note that the value inside the semaphore can&#8217;t be retrieved,
 it can only be set at the beginning.</p>
 
 <p>Knowing how to use semaphores, a solution to our user computationally
@@ -1797,7 +1797,7 @@ void f() {
 </code></pre>
 
 <p>This will work just like discussed earlier, leaving only one process at a time
-inside it&#39;s critical section, with the advantage that the waiting processes
+inside it&#8217;s critical section, with the advantage that the waiting processes
 will be in the waiting queue and the previously wasted cpu cycles can be used
 by other processes if the scheduler decides so.</p>
 
@@ -1837,7 +1837,7 @@ int sem_post(sem_t *sem); &#47;* V *&#47;
 
 <p>These two methods implement the two defining operations of a semaphore. All
 methods return 0 on success and -1 on error; in the case of <code>sem_wait</code> and
-<code>sem_post</code> if there&#39;s an error, no changes are made to the semaphore.</p>
+<code>sem_post</code> if there&#8217;s an error, no changes are made to the semaphore.</p>
 
 <p>The first pattern to implement is the mutex pattern. A system implementing a
 mutex around a critical section, only allows one process at a time to enter;
@@ -1914,7 +1914,7 @@ critical section, it wakes one up using <code>sem_post</code> and the process co
 <em>deadlock</em>. A deadlock occurs when every party in a system is waiting for the
 other to complete a task. In concurrent programming it can happen in subtle
 ways, difficult to debug; usually when two or more programs are waiting for
-each other to signal a semaphore. There&#39;s a <a href="https://en.wikipedia.org/wiki/Deadlock">theoretical
+each other to signal a semaphore. There&#8217;s a <a href="https://en.wikipedia.org/wiki/Deadlock">theoretical
 result</a> that states that a deadlock
 can happen if and only if:</p>
 
@@ -1926,9 +1926,9 @@ can happen if and only if:</p>
 </ul>
 
 <p>Another interesting example is the <em>livelock</em> , which is similar to the
-deadlock, but doesn&#39;t cause the participants to be blocked, but rather they
+deadlock, but doesn&#8217;t cause the participants to be blocked, but rather they
 continually repeat the same steps to respond to other processes doing the
-same. Intuitively, it&#39;s what happens when you&#39;re walking and another person is
+same. Intuitively, it&#8217;s what happens when you&#8217;re walking and another person is
 doing the same towards you, and eventually both end up moving to the right and
 left to allow the other to pass; but no useful work is being done.</p>
 </body>

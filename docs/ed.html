@@ -16,10 +16,10 @@ buffer is empty. changes are always applied to the buffer. if changes are not
 saved, they are lost when closing the editor.</p>
 
 <p>there are several versions of ed, with slightly different arguments and
-commands; the <code>-G</code> argument runs gnu&#39;s <code>ed</code> in compatibility mode.</p>
+commands; the <code>-G</code> argument runs gnu&#8217;s <code>ed</code> in compatibility mode.</p>
 
 <p>interacting with <code>ed</code> is similar to interacting with a shell. a prompt is
-displayed while it reads lines from standar input. if the input doesn&#39;t match
+displayed while it reads lines from standar input. if the input doesn&#8217;t match
 with a command, an error is returned.</p>
 
 <p>the default prompt is an empty string, but it can be changed using the <code>-p</code>
@@ -69,7 +69,7 @@ be:</p>
 </code></pre>
 
 <ul>
-<li><code>0</code> is a virtual line above all others. it&#39;s not posible to read or write into this address. it is useful, for example, to write a line before the first one (that is, bellow <code>0</code>)</li>
+<li><code>0</code> is a virtual line above all others. it&#8217;s not posible to read or write into this address. it is useful, for example, to write a line before the first one (that is, bellow <code>0</code>)</li>
 </ul>
 
 <pre><code>    0p  error: 0 can&#39;t be printed
@@ -168,7 +168,7 @@ address is set to the matched line.</p>
 </code></pre>
 
 <ul>
-<li>it&#39;s possible to mark lines in ed, so they can be referenced in future commands. the marked lines are also valid addresses, <code>&#39;lc</code> refers to the line marked with <code>lc</code>, where <code>lc</code> is a lowercase letter.</li>
+<li>it&#8217;s possible to mark lines in ed, so they can be referenced in future commands. the marked lines are also valid addresses, <code>&#39;lc</code> refers to the line marked with <code>lc</code>, where <code>lc</code> is a lowercase letter.</li>
 </ul>
 
 <pre><code>    a       # adding some lines to show ?re? working
@@ -255,7 +255,7 @@ prompt is <code>$</code>.</p>
 </code></pre>
 
 <ul>
-<li><code>(.)d</code> deletes the addressed lines from the buffer. the current address is set to the line bellow the last deleted line, if one doesn&#39;t exist, it is set to the las line above the deleted lines.</li>
+<li><code>(.)d</code> deletes the addressed lines from the buffer. the current address is set to the line bellow the last deleted line, if one doesn&#8217;t exist, it is set to the las line above the deleted lines.</li>
 </ul>
 
 <pre><code>    -,p     # print all lines in the file
@@ -402,7 +402,7 @@ prompt is <code>$</code>.</p>
 
 <ul>
 <li><p><code>u</code> undoes the last command and sets the current line to the one previous to the last command. the commands g, G, v, V are treated as one command. <code>u</code> can undo itself.</p></li>
-<li><p><code>(1,$)g&#47;re&#47;command-list</code> it works as a for loop over all the lines matching the <code>re</code> regular expression. the current address is set to each matching line in turn and then the command list is executed. each command must be in a different line. <code>G</code>, <code>g</code>, <code>V</code> and <code>v</code> can&#39;t be on the command list. if the list is empty, <code>p</code> is executed. any change in line numbers (for example if a line is deleted) takes place before the next match is processed. if there were no matches, the current address doesn&#39;t change.</p></li>
+<li><p><code>(1,$)g&#47;re&#47;command-list</code> it works as a for loop over all the lines matching the <code>re</code> regular expression. the current address is set to each matching line in turn and then the command list is executed. each command must be in a different line. <code>G</code>, <code>g</code>, <code>V</code> and <code>v</code> can&#8217;t be on the command list. if the list is empty, <code>p</code> is executed. any change in line numbers (for example if a line is deleted) takes place before the next match is processed. if there were no matches, the current address doesn&#8217;t change.</p></li>
 </ul>
 
 <pre><code>    ,n
@@ -467,7 +467,7 @@ prompt is <code>$</code>.</p>
 <ul>
 <li><p><code>(1,$)v&#47;re&#47;command-list</code> same as <code>g</code> but it applies the commands to lines not matching <code>re</code>.</p></li>
 <li><p><code>(1,$)V&#47;re&#47;command-list</code> same as <code>G</code> but it applies the commands to lines not matching <code>re</code>.</p></li>
-<li><p><code>(1,$)w file</code> writes addressed lines to <code>file</code>. if no file is specified the default is used; lines are writen to a file if one is specified, also it&#39;s set as the defaul. this command will erase the data in the file without warning. the current address is not changed.</p></li>
+<li><p><code>(1,$)w file</code> writes addressed lines to <code>file</code>. if no file is specified the default is used; lines are writen to a file if one is specified, also it&#8217;s set as the defaul. this command will erase the data in the file without warning. the current address is not changed.</p></li>
 <li><p><code>(1,$)wq file</code> saves the addressed lines into <code>file</code> and then issues a <code>q</code> command. if <code>q</code> triggers a warning, the current line is one after the addressed lines; if the last line in the buffer was among the lines copied, then current address is set to the last line in the buffer.</p></li>
 </ul>
 
@@ -488,7 +488,7 @@ prompt is <code>$</code>.</p>
 </code></pre>
 
 <ul>
-<li><code>(1,$)w !command</code> executes <code>command</code> and passes the addressed lines to the stdin of the command. the current address doesn&#39;t change.</li>
+<li><code>(1,$)w !command</code> executes <code>command</code> and passes the addressed lines to the stdin of the command. the current address doesn&#8217;t change.</li>
 </ul>
 
 <pre><code>    -,p
@@ -602,14 +602,14 @@ succesive windows, effectivly navigating the buffer one screen at a time
 
 <ul>
 <li><p><code>f file</code> sets the default file to <code>file</code>. if the file is not specified it will print the default filename.</p></li>
-<li><p><code>E file</code> is the same as <code>e file</code> but it won&#39;t print a warning if the buffer contains changes not saved to disk.</p></li>
+<li><p><code>E file</code> is the same as <code>e file</code> but it won&#8217;t print a warning if the buffer contains changes not saved to disk.</p></li>
 <li><p><code>e file</code> edits &#8216;file&#8217;, and sets the default filename to <code>file</code>. if <code>file</code> is not specified, the default file is used. the buffer prior to the command is erased and then the contents of <code>file</code> are copied to the buffer. the current address is set to the last line copied.</p></li>
 <li><p><code>H</code> toogles the automatic printing of an explanation of the last error. by default, the explanation is not printed.</p></li>
 <li><p><code>h</code> prints an explanation of the last error.</p></li>
 <li><p><code>P</code> toogles the command prompt on or off (off by default unless the <code>-p</code> option is used).</p></li>
 <li><p><code>q</code> quits ed. if there are changes not saved to disk, the first <code>q</code> prints a warning, the second <code>q</code> closes the file without saving.</p></li>
 <li><p><code>Q</code> quits ed, even if there are changes not saved to disk.</p></li>
-<li><p><code>($)r file</code> copies the contents of <code>file</code> after the addressed line. if a <code>file</code> is not specified, the default is used. if there is not a default file set, <code>file</code> is used and set as default. the default file is not changed if there was one before the command was issued. the current address <code>.</code> is set to the last line copied. it&#39;s similar to <code>r !command</code> but with the file contents instead of the output of a command.</p></li>
+<li><p><code>($)r file</code> copies the contents of <code>file</code> after the addressed line. if a <code>file</code> is not specified, the default is used. if there is not a default file set, <code>file</code> is used and set as default. the default file is not changed if there was one before the command was issued. the current address <code>.</code> is set to the last line copied. it&#8217;s similar to <code>r !command</code> but with the file contents instead of the output of a command.</p></li>
 <li><p><code>($)r !command</code> copies the output of <code>!command</code> to after the line addressed. the current address is set to the last line that was copied.</p></li>
 </ul>
 
@@ -649,14 +649,14 @@ succesive windows, effectivly navigating the buffer one screen at a time
     !
 </code></pre>
 
-<h3 id="using%20ed">using ed</h3>
+<h3 id="using-ed">using ed</h3>
 
 <p>good properties:</p>
 
 <ul>
 <li>the startup and editing is extremely fast.</li>
 <li>adding, deleting and changing lines is very confortable and fast.</li>
-<li>navigating the buffer is not that bad, but it isn&#39;t very confortable either; reading lines surrounding a specific line, for example the function containing a compiler error, requires thinking how many lines to read. most others editors make this easier.</li>
+<li>navigating the buffer is not that bad, but it isn&#8217;t very confortable either; reading lines surrounding a specific line, for example the function containing a compiler error, requires thinking how many lines to read. most others editors make this easier.</li>
 <li>scrolling is easy with the <code>z</code> command.</li>
 <li>the command syntax is very compact and elegant.</li>
 <li>no configuration, other than the prompt. it works out of the box</li>

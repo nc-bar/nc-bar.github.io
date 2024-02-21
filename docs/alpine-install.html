@@ -8,9 +8,9 @@
 	<title>ncb.ar</title>
 </head>
 <body>
-<h1 id="Alpine%20linux%20with%20encryption">Alpine linux with encryption</h1>
+<h1 id="alpine-linux-with-encryption">Alpine linux with encryption</h1>
 
-<p>According to the project&#39;s <a href="https://alpinelinux.org/">website</a>: </p>
+<p>According to the project&#8217;s <a href="https://alpinelinux.org/">website</a>: </p>
 
 <blockquote>
 <p>Alpine Linux is an independent, non-commercial, general purpose Linux distribution designed for power users who appreciate security, simplicity and resource efficiency.</p>
@@ -25,15 +25,15 @@
 <li><code>apk</code> package manager, which can be used to install precompiled software and take care of the dependencies automatically</li>
 </ul>
 
-<h2 id="Initial%20configurations">Initial configurations</h2>
+<h2 id="initial-configurations">Initial configurations</h2>
 
-<p>An iso image can be downloaded from the project&#39;s <a href="https://alpinelinux.org/downloads">website</a> and then copied into a usb stick or a dvd.</p>
+<p>An iso image can be downloaded from the project&#8217;s <a href="https://alpinelinux.org/downloads">website</a> and then copied into a usb stick or a dvd.</p>
 
 <p>After booting, a login screen appears. Entering root will log you in and typing <code>setup-alpine</code> launches the installation manager. The installation is fairly straight-forward if no special configurations are needed.</p>
 
 <p>After the keyboard, root password, timezones and network configuration, the installation script will prepare the disks. At that moment, if you want to use encryption, quit the script.</p>
 
-<h2 id="Encryption">Encryption</h2>
+<h2 id="encryption">Encryption</h2>
 
 <p>Objectives:</p>
 
@@ -53,13 +53,13 @@
 +-------------------------------+
 </code></pre>
 
-<p>The <code>&#47;boot</code> partition contains the necessary files to boot, such as the kernel binary, so it needs to be unencrypted. It&#39;s possible to encrypt <code>&#47;boot</code> as well, but it requires support from the bootloader.</p>
+<p>The <code>&#47;boot</code> partition contains the necessary files to boot, such as the kernel binary, so it needs to be unencrypted. It&#8217;s possible to encrypt <code>&#47;boot</code> as well, but it requires support from the bootloader.</p>
 
 <p>The second partition is encrypted and will contain the whole system, except for the files in <code>&#47;boot</code>.</p>
 
 <p>The <a href="https://wiki.archlinux.org/index.php/Fdisk">fdisk</a> tool can be used to create the partition scheme.</p>
 
-<p>The <code>cryptsetup</code> utility talks to the <code>dm-crypt</code> module. It doesn&#39;t come with the installation image, so use <code>apk</code> to add it:</p>
+<p>The <code>cryptsetup</code> utility talks to the <code>dm-crypt</code> module. It doesn&#8217;t come with the installation image, so use <code>apk</code> to add it:</p>
 
 <pre><code>apk add cryptsetup
 </code></pre>
@@ -69,7 +69,7 @@
 <pre><code>cryptsetup luksFormat &#47;dev&#47;sda2
 </code></pre>
 
-<p>will format the <code>&#47;dev&#47;sda2</code> partition with the LUKS format, which is used by <code>dm-crypt</code>. It&#39;s possible to use a keyfile instead of a password.</p>
+<p>will format the <code>&#47;dev&#47;sda2</code> partition with the LUKS format, which is used by <code>dm-crypt</code>. It&#8217;s possible to use a keyfile instead of a password.</p>
 
 <p>Backup the LUKS header in that partition (if it breaks you will lose the information) using</p>
 
@@ -83,16 +83,16 @@
 
 <p>The kernel will create the <code>&#47;dev&#47;mapper&#47;crypto</code> device to interact with the encrypted partition transparently.</p>
 
-<h2 id="Logical%20volume%20management">Logical volume management</h2>
+<h2 id="logical-volume-management">Logical volume management</h2>
 
 <p><a href="https://wiki.archlinux.org/index.php/LVM">Lvm</a> is used to make partition management more flexible. It solves the problem of wanting to shrink or grow a partition, without having enough contiguous space. This setup will look like:</p>
 
 <pre><code>file system &#60;--&#62; lvm &#60;--&#62; dm-crypt &#60;--&#62; drivers &#60;--&#62; storage
 </code></pre>
 
-<p>Just as <code>dm-crypt</code> provides a device other software can talk to, while keeping it&#39;s operations hidden, lvm does the same, but mapping blocks in the exposed device to blocks in the underlying device. This makes it possible to have a partition spread over non contiguos blocks of storage, which in turn makes the partition scheme more flexible.</p>
+<p>Just as <code>dm-crypt</code> provides a device other software can talk to, while keeping it&#8217;s operations hidden, lvm does the same, but mapping blocks in the exposed device to blocks in the underlying device. This makes it possible to have a partition spread over non contiguos blocks of storage, which in turn makes the partition scheme more flexible.</p>
 
-<p>The concepts to understand here are: physical group, volume group and logical volume. The physical group is the actual device; it could be a disk, a partition, or any block device interface provided by the kernel, such as a <code>dm-crypt</code> mapped device or a loopback device from a file. The volume group is the set of physical groups used to store the logical volumes; this gives flexibility to lvm: the logical volumes can be located in different devices. The logical volumes are the analog of partitions; they appear as devices that can be mounted, usually under <code>&#47;dev&#47;vg&#47;name</code> where <code>name</code> is it&#39;s name, and <code>vg</code> is the name of the related volume group.</p>
+<p>The concepts to understand here are: physical group, volume group and logical volume. The physical group is the actual device; it could be a disk, a partition, or any block device interface provided by the kernel, such as a <code>dm-crypt</code> mapped device or a loopback device from a file. The volume group is the set of physical groups used to store the logical volumes; this gives flexibility to lvm: the logical volumes can be located in different devices. The logical volumes are the analog of partitions; they appear as devices that can be mounted, usually under <code>&#47;dev&#47;vg&#47;name</code> where <code>name</code> is it&#8217;s name, and <code>vg</code> is the name of the related volume group.</p>
 
 <p>I created the volume group using the <code>dm-crypt</code> backed device as a physical volume. Then, I created logical volumes for <code>&#47;</code>, <code>&#47;home</code> and <code>swap</code>.</p>
 
@@ -120,7 +120,7 @@ lvcreate -n root -L 80G vg0
 
 <p>Now, the partitions will be available under <code>&#47;dev&#47;vg0&#47;partition_name</code>.</p>
 
-<h2 id="Creating%20the%20file%20systems">Creating the file systems</h2>
+<h2 id="creating-the-file-systems">Creating the file systems</h2>
 
 <p>Once the devices are ready, the next step is to create the file systems. I used <code>ext4</code> and <code>ext2</code> for the root and boot partition respectively.</p>
 
@@ -148,22 +148,22 @@ mount -t ext2 &#47;dev&#47;sda1 &#47;mnt&#47;boot
 <pre><code>crypto  UUID=&#60;uuid&#62; none    luks
 </code></pre>
 
-<p>If the file doesn&#39;t exist, create it. This file tells the operating system that a luks volume exists with node <code>&#47;dev&#47;mapper&#47;crypto</code>. Replace <code>&#60;uuid&#62;</code> with he UUID of the partition; to get it run</p>
+<p>If the file doesn&#8217;t exist, create it. This file tells the operating system that a luks volume exists with node <code>&#47;dev&#47;mapper&#47;crypto</code>. Replace <code>&#60;uuid&#62;</code> with he UUID of the partition; to get it run</p>
 
 <pre><code>blkid -s UUID -o value &#47;dev&#47;sda2 &#62; ~&#47;uuid
 </code></pre>
 
-<p>which saves the id into a file named uuid in the root home of the live linux (not the new installation), since it&#39;ll be needed again later.</p>
+<p>which saves the id into a file named uuid in the root home of the live linux (not the new installation), since it&#8217;ll be needed again later.</p>
 
-<h2 id="New%20initial%20ram%20disk">New initial ram disk</h2>
+<h2 id="new-initial-ram-disk">New initial ram disk</h2>
 
-<p>At startup, the computer finds a bootable device: a hard-drive, usb-stick, even an ethernet interface for network boot. Then, assuming it&#39;s a storage device, it extracts the <a href="https://wikipedia.org/wiki/Master_boot_record">Master Boot Record</a>, or mbr for short, wich contains the partition scheme of the device as well as the boot loader.</p>
+<p>At startup, the computer finds a bootable device: a hard-drive, usb-stick, even an ethernet interface for network boot. Then, assuming it&#8217;s a storage device, it extracts the <a href="https://wikipedia.org/wiki/Master_boot_record">Master Boot Record</a>, or mbr for short, wich contains the partition scheme of the device as well as the boot loader.</p>
 
 <p>The boot loader is a small piece of code in charge of loading operating system kernels into memory, along with any requiered parameters. Modern boot loaders can be complex and divide its operations into stages, providing more features, but the main goal is to load the operating system.</p>
 
 <p>In linux, a separate partition, usually called boot, contains the files needed to initialize the system, such as the kernel image. The boot loader reads this partition and loads the kernel.</p>
 
-<p>If everything went well, the first process, <a href="https://wikipedia.org/wiki/Init">init</a>, is launched. This process is in charged of mounting the required filesystems, activating the swapp, launching other important processes, etc. It&#39;s located in the root file system, which creates a problem if the partition it&#39;s in is ecrypted: the kernel will not be able to load it.</p>
+<p>If everything went well, the first process, <a href="https://wikipedia.org/wiki/Init">init</a>, is launched. This process is in charged of mounting the required filesystems, activating the swapp, launching other important processes, etc. It&#8217;s located in the root file system, which creates a problem if the partition it&#8217;s in is ecrypted: the kernel will not be able to load it.</p>
 
 <p>A solution is to use the initial ram disk. Along with the kernel, the boot partition contains a file used to set up a temporal filesystem in memory. Inside it, there is an init script used to mount the actual root file system and then give the control to the actual init script. So, if you use encryption, you will need to create a new initial ram disk with the modules to decrypt partitions.</p>
 
@@ -172,16 +172,16 @@ mount -t ext2 &#47;dev&#47;sda1 &#47;mnt&#47;boot
 <pre><code>mkinitfs -c &#47;mnt&#47;etc&#47;mkinitfs&#47;mkinitfs.conf -b &#47;mnt&#47; $(ls &#47;mnt&#47;lib&#47;modules)
 </code></pre>
 
-<h2 id="Bootloader">Bootloader</h2>
+<h2 id="bootloader">Bootloader</h2>
 
-<p>There are many bootloaders, I went with <a href="https://wikipedia.org/wiki/SYSLINUX">Syslinux</a>, but <a href="https://wikipedia.org/wiki/GNU_GRUB">Grub</a> is also a possibility. Make sure the one you choose can read the file system of the <code>&#47;boot</code> partition, if it&#39;s <code>ext2</code> it probably can.</p>
+<p>There are many bootloaders, I went with <a href="https://wikipedia.org/wiki/SYSLINUX">Syslinux</a>, but <a href="https://wikipedia.org/wiki/GNU_GRUB">Grub</a> is also a possibility. Make sure the one you choose can read the file system of the <code>&#47;boot</code> partition, if it&#8217;s <code>ext2</code> it probably can.</p>
 
-<p>First, let&#39;s install the <code>syslinux</code> package:</p>
+<p>First, let&#8217;s install the <code>syslinux</code> package:</p>
 
 <pre><code>apk add syslinux
 </code></pre>
 
-<p>Since we&#39;re using encryption, the kernel will need to know which disk needs to be decrypted and mounted as well as it&#39;s name. I chose the name <code>crypto</code> for <code>&#47;dev&#47;sda2</code>, so append the string</p>
+<p>Since we&#8217;re using encryption, the kernel will need to know which disk needs to be decrypted and mounted as well as it&#8217;s name. I chose the name <code>crypto</code> for <code>&#47;dev&#47;sda2</code>, so append the string</p>
 
 <pre><code>cryptroot=UUID=&#60;uuid&#62; cryptdm=crypto
 </code></pre>
@@ -202,7 +202,7 @@ exit
 <pre><code>dd bs=440 count=1 conv=notrunc if=&#47;mnt&#47;usr&#47;share&#47;syslinux&#47;mbr.bin of=&#47;dev&#47;sda
 </code></pre>
 
-<h2 id="Finishing%20the%20installation">Finishing the installation</h2>
+<h2 id="finishing-the-installation">Finishing the installation</h2>
 
 <p>At this point the installation is complete. Close everything and reboot</p>
 
@@ -235,7 +235,7 @@ wpa_passphrase "name" "password" &#62; &#47;etc&#47;wpa_supplicant&#47;wpa_suppl
 
 <p>The <code>wpa_supplicant</code> program manages the wpa and wpa2 authentication and <code>wireless-tools</code> has important programs such as <code>udhcpc</code> to dynamically get an ip address from an access point.</p>
 
-<p>Look for your wireless interface name by issuing the <code>ifconfig -a</code> or <code>ip link</code> command. Assuming it&#39;s <code>wlan0</code>, set the interface behaviour in <code>&#47;etc&#47;network&#47;interfaces</code> by adding</p>
+<p>Look for your wireless interface name by issuing the <code>ifconfig -a</code> or <code>ip link</code> command. Assuming it&#8217;s <code>wlan0</code>, set the interface behaviour in <code>&#47;etc&#47;network&#47;interfaces</code> by adding</p>
 
 <pre><code>auto wlan0
 iface wlan0 inet dhcp

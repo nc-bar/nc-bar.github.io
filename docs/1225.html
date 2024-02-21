@@ -12,7 +12,7 @@
 
 <p>Finding a sequence of integers <code>a(n)</code> where <code>a(1) = 1</code>, <code>a(2) = 2</code>, <code>a(3) = 2</code>, <code>a(4) = 5</code>.</p>
 
-<h2 id="Polynomial%20Interpolation">Polynomial Interpolation</h2>
+<h2 id="polynomial-interpolation">Polynomial Interpolation</h2>
 
 <p><a href="https://en.wikipedia.org/wiki/Polynomial_interpolation">Polynomial interpolation</a> can be used to find a polynomial which passes through a set of points. Using the points</p>
 
@@ -37,9 +37,9 @@ p(4) = 5
 <pre><code>1-2-2-5-15...
 </code></pre>
 
-<h2 id="Pi">Pi</h2>
+<h2 id="pi">Pi</h2>
 
-<p>Given that the first 4 elements in the sequence are between <code>0</code> and <code>9</code>, it could be possible to find the sequence in a non periodic irrational number&#39;s decimal representation. If so, defining <code>a(n) = (p-1+n)th decimal in x</code> where <code>x</code> is the irrational number and <code>p</code> is the position at which the sequence occurs, solves the problem.</p>
+<p>Given that the first 4 elements in the sequence are between <code>0</code> and <code>9</code>, it could be possible to find the sequence in a non periodic irrational number&#8217;s decimal representation. If so, defining <code>a(n) = (p-1+n)th decimal in x</code> where <code>x</code> is the irrational number and <code>p</code> is the position at which the sequence occurs, solves the problem.</p>
 
 <p>Choosing <code>x = pi</code>, a <a href="https://angio.net/pi">search</a> finds the sequence at position <code>p = 9416</code>. Then</p>
 
@@ -51,13 +51,13 @@ p(4) = 5
 <pre><code>1-2-2-5-7....
 </code></pre>
 
-<p>It&#39;s easy to find a closed form for this <code>a(n)</code> by using a <a href="https://en.wikipedia.org/wiki/Bailey%E2%80%93Borwein%E2%80%93Plouffe_formula">formula</a> for the nth digit of pi.</p>
+<p>It&#8217;s easy to find a closed form for this <code>a(n)</code> by using a <a href="https://en.wikipedia.org/wiki/Bailey%E2%80%93Borwein%E2%80%93Plouffe_formula">formula</a> for the nth digit of pi.</p>
 
 <p>The same technique could be used with other irrational numbers such as <a href="https://mathworld.wolfram.com/e.html">e</a>. </p>
 
-<h2 id="Almost%20Fibonacci">Almost Fibonacci</h2>
+<h2 id="almost-fibonacci">Almost Fibonacci</h2>
 
-<p>The sequence <code>1-2-2-5</code> is very similar to the first Fibonacci numbers <code>0-1-1-2-3-5...</code>. A slight modification in Fibonacci&#39;s definition:</p>
+<p>The sequence <code>1-2-2-5</code> is very similar to the first Fibonacci numbers <code>0-1-1-2-3-5...</code>. A slight modification in Fibonacci&#8217;s definition:</p>
 
 <pre><code>b(n) = b(n-1) + b(n-2) + (-1)^(n+1) with b(0) = 0 and b(1) = 1
 </code></pre>
@@ -72,7 +72,7 @@ p(4) = 5
 <pre><code>1-2-2-5-6...
 </code></pre>
 
-<p>A closed form for this <code>a(n)</code> can be found by using <a href="https://en.wikipedia.org/wiki/Fibonacci_number#Closed-form_expression">Fibonacci&#39;s closed form</a>:</p>
+<p>A closed form for this <code>a(n)</code> can be found by using <a href="https://en.wikipedia.org/wiki/Fibonacci_number#Closed-form_expression">Fibonacci&#8217;s closed form</a>:</p>
 
 <pre><code>fib(n) = (phi^n - psi^n) &#47; (phi - psi)
 a(n) = fib(n+1) + (-1)^(n+1)
@@ -80,9 +80,9 @@ a(n) = fib(n+1) + (-1)^(n+1)
 
 <p>Where <a href="https://en.wikipedia.org/wiki/Golden_ratio">phi</a> is a well known constant and <code>psi = 1 - phi</code>.</p>
 
-<h2 id="Almost%20Fibonacci%20v2">Almost Fibonacci v2</h2>
+<h2 id="almost-fibonacci-v2">Almost Fibonacci v2</h2>
 
-<p>Another way of getting the sequence <code>1-2-2-5</code> from Fibonacci&#39;s is to define</p>
+<p>Another way of getting the sequence <code>1-2-2-5</code> from Fibonacci&#8217;s is to define</p>
 
 <pre><code>a(n) = fib(n+1) + g(n)
 </code></pre>
@@ -100,7 +100,7 @@ fib(n) = n-th fibonacci number = (phi^n - psi^n) &#47; (phi - psi)
 <pre><code>1-2-2-5-5-11-13...
 </code></pre>
 
-<p>Again, it&#39;s possible to write a closed form expresion by noting that</p>
+<p>Again, it&#8217;s possible to write a closed form expresion by noting that</p>
 
 <pre><code>g(n) = (n&#47;2)*sin( (3&#47;4)pi + ((-1)^(n+1)) * (pi&#47;4) )
 </code></pre>
@@ -110,7 +110,7 @@ fib(n) = n-th fibonacci number = (phi^n - psi^n) &#47; (phi - psi)
 <pre><code>a(n) = fib(n+1) + (n&#47;2)*sin(3&#47;4)pi + ((-1)^(n+1))*(pi&#47;4)))
 </code></pre>
 
-<h2 id="Perfect%20squares">Perfect squares</h2>
+<h2 id="perfect-squares">Perfect squares</h2>
 
 <p>A <a href="https://en.wikipedia.org/wiki/Square_number">perfect square</a> is an integer <code>n</code> such that <code>n = p^2</code> for some integer <code>p</code>:</p>
 
@@ -122,14 +122,14 @@ fib(n) = n-th fibonacci number = (phi^n - psi^n) &#47; (phi - psi)
 <pre><code>1-2-2-5-11...
 </code></pre>
 
-<p>To show it, here&#39;s <code>n! + 2</code> and a list of perfect squares</p>
+<p>To show it, here&#8217;s <code>n! + 2</code> and a list of perfect squares</p>
 
 <pre><code>n! + 2          = 3-4-8-26-122...
 
 perfect squares = 1-4-9-16-25-36-49-64-81-100-121...
 </code></pre>
 
-<h2 id="Some%20other%20ideas">Some other ideas</h2>
+<h2 id="some-other-ideas">Some other ideas</h2>
 
 <ul>
 <li><p>Train a simple neural network (a 2-layer perceptron maybe) with the set</p>
@@ -137,9 +137,9 @@ perfect squares = 1-4-9-16-25-36-49-64-81-100-121...
 <p>{(1, 1), (2, 2), (3, 2), (4, 5)}</p></li>
 </ul>
 
-<p>Then, define <code>a(n) = [r(n)]</code> where <code>r(n)</code> is the output of the trained neural network. Since the output of neural networks are matrix multiplications, a closed form for the sequence <code>a(n)</code> will exist. If I get time to do this and it works I&#39;ll update the post.</p>
+<p>Then, define <code>a(n) = [r(n)]</code> where <code>r(n)</code> is the output of the trained neural network. Since the output of neural networks are matrix multiplications, a closed form for the sequence <code>a(n)</code> will exist. If I get time to do this and it works I&#8217;ll update the post.</p>
 
-<p>If <code>p(n) = number of primes between 1 and n</code>, then <code>p(n) = 0-1-2-2-3-3-5</code>. There is probably a function <code>h</code> such that <code>p(h(n)) = a(n)</code>. Didn&#39;t follow through with this idea since the perfect squares one is similar.</p>
+<p>If <code>p(n) = number of primes between 1 and n</code>, then <code>p(n) = 0-1-2-2-3-3-5</code>. There is probably a function <code>h</code> such that <code>p(h(n)) = a(n)</code>. Didn&#8217;t follow through with this idea since the perfect squares one is similar.</p>
 
 <p>One way of turning <code>1-2-2-5</code> into a strictly growing funcion is to do something like <code>a&#39;(n) = 2^(n-1) - a(n) = 2-4-6-13...</code> and then <code>a(n) = 2^(n-1) - a&#39;(n)</code> gets defined (of course <code>2^(n-1)</code> is just one posibility); then, finding a pattern for <code>2-4-6-13...</code> is equivalent to finding one for <code>1-2-2-5</code>.</p>
 
@@ -166,7 +166,7 @@ h(0) = x0 - y0 = 1     (start from 0 to get a cleaner equation and then correct 
 ....
 </code></pre>
 
-<p>The function <code>l(n) = The amount of bits needed to represent n</code> almost works: <code>1-2-2-3</code>. There&#39;s probably a transformation that results in <code>l(t(n)) = a(n)</code> but I couldn&#39;t find it.</p>
+<p>The function <code>l(n) = The amount of bits needed to represent n</code> almost works: <code>1-2-2-3</code>. There&#8217;s probably a transformation that results in <code>l(t(n)) = a(n)</code> but I couldn&#8217;t find it.</p>
 
 <p>Moving around the binary representations of the numbers of the sequence:</p>
 
@@ -176,9 +176,9 @@ h(0) = x0 - y0 = 1     (start from 0 to get a cleaner equation and then correct 
 0  0  0  1
 </code></pre>
 
-<p>Some combinatorics problems look almost like the sequence, but they grow too fast after <code>2</code>. In some of those problems the growth of the possible states is similar to the growth of <code>a(n)</code>; there&#39;s probably some classic combinatorics problem that can be parametrized in such a way that results in the sequence. </p>
+<p>Some combinatorics problems look almost like the sequence, but they grow too fast after <code>2</code>. In some of those problems the growth of the possible states is similar to the growth of <code>a(n)</code>; there&#8217;s probably some classic combinatorics problem that can be parametrized in such a way that results in the sequence. </p>
 
-<h2 id="%3Ca%20href=%22https://oeis.org/%22%3EOEIS%3C/a%3E"><a href="https://oeis.org/">OEIS</a></h2>
+<h2 id="oeis"><a href="https://oeis.org/">OEIS</a></h2>
 
 <p>Search <a href="https://oeis.org/search?q=1%2C2%2C2%2C5&amp;language=english&amp;go=Search">oeis</a> service.</p>
 </body>

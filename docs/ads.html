@@ -8,11 +8,11 @@
 	<title>ncb.ar</title>
 </head>
 <body>
-<h1 id="Algorithms%20and%20data%20strructures">Algorithms and data strructures</h1>
+<h1 id="algorithms-and-data-strructures">Algorithms and data strructures</h1>
 
 <p>Notes some algorithms and data structures.</p>
 
-<h2 id="binary%20search%20trees">binary search trees</h2>
+<h2 id="binary-search-trees">binary search trees</h2>
 
 <p>A tree where each node value is bigger than the value of the left child and smaller or equal than the one on the right.</p>
 
@@ -66,7 +66,7 @@
 
 <p>The cost is an increase in the implementation complexity, but not that much.</p>
 
-<p>The usual operations performed in these trees are, like in BST&#39;s:</p>
+<p>The usual operations performed in these trees are, like in BST&#8217;s:</p>
 
 <ul>
 <li><code>insert</code></li>
@@ -90,33 +90,26 @@
 <pre><code>bf(node) = node.right_tree.height - node.left_tree.height
 </code></pre>
 
-<p>The invariant of the tree, adding to those of a normal BFS, is that the balance factor of every node is 1, 0 or -1.</p>
+<p>The invariant of the tree, adding to those of a normal BST, is that the balance factor of every node is 1, 0 or -1.</p>
 
-<p>To mantain this invariant it is necesary to modify the <em>insert</em> and <em>delete</em> methods. The algorithms are the same as the respective BFS algorithms, but after the changes, the balance factor of the nodes from the root to the ones changed needs to be restored.</p>
+<p>When inserting or deleting a node the balance factor may change, resulting in an inbalanced tree. A set of operations, called <em>rotations</em>, can fix them:</p>
 
-<p>To restore the invariant in those nodes, there are operations known as <em>tree rotations</em>. They take a tree and produce an equivalent one with a different balance factor.</p>
-
-<p>The rotations are:</p>
-
-<p>This rotation is useful when the inserted node is <code>Z</code>:</p>
-
-<pre><code>          X[-2]                  Z[0]
-         &#47;    \                 &#47;   \ 
-       Y[1]    Xr              Y     X
-       &#47;  \        -----&#62;     &#47; \   &#47; \
-      Yl   Z                 Yl Zl Zr  Xr
-          &#47; \
+<pre><code>          X[-2]                                 Z[0]
+          &#47;    \                                 &#47;   \ 
+       Y[1]   Xr    rotation           Y     X
+       &#47;  \          --------&#62;     &#47; \   &#47; \
+      Yl   Z                                Yl Zl Zr  Xr
+           &#47; \
          Zl  Zr
-</code></pre>
 
-<p>This rotation is useful when the inserted node is in the place of <code>Z</code></p>
 
-<pre><code>     X[2]                  Y[0,1]
-    &#47; \                   &#47; \
-  Xl   Y[1]              X   Z
-      &#47; \     -----&#62;    &#47; \
-    Yl   Z             Xl  Yl
-        &#47; \
+
+     X[2]                             Y[0 or 1]
+    &#47; \                               &#47; \
+  Xl   Y[1]    rotation     X   Z
+       &#47; \     -------&#62;       &#47; \
+    Yl   Z                            Xl  Yl
+         &#47; \
        Zl  Zr
 </code></pre>
 

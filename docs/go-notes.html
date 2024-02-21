@@ -8,11 +8,11 @@
 	<title>ncb.ar</title>
 </head>
 <body>
-<h1 id="Notes%20on%20go">Notes on go</h1>
+<h1 id="notes-on-go">Notes on go</h1>
 
 <p>Some notes on the go programming language.</p>
 
-<h2 id="General">General</h2>
+<h2 id="general">General</h2>
 
 <p>The language is similar to c, but:</p>
 
@@ -70,7 +70,7 @@ etc.
 <li>standard source code style given by <code>gofmt</code></li>
 </ul>
 
-<h2 id="Structs">Structs</h2>
+<h2 id="structs">Structs</h2>
 
 <ul>
 <li>Similar to c structs and objects in other languages</li>
@@ -88,7 +88,7 @@ etc.
 }
 </code></pre>
 
-<p>It&#39;s possible to define annonymous structs (without type name):</p>
+<p>It&#8217;s possible to define annonymous structs (without type name):</p>
 
 <pre><code>anon := struct {
     name         string
@@ -120,7 +120,7 @@ etc.
 }
 </code></pre>
 
-<p>If a field is not initiallized, it takes it&#39;s zero value.</p>
+<p>If a field is not initiallized, it takes it&#8217;s zero value.</p>
 
 <p>Structs can have methods, similar to objects in other languages</p>
 
@@ -146,7 +146,7 @@ etc.
 fmt.Println((&#38;b).Name())
 </code></pre>
 
-<p>it&#39;s equivalent to</p>
+<p>it&#8217;s equivalent to</p>
 
 <pre><code>b := bookInfo{
     name: "book name",
@@ -156,9 +156,9 @@ fmt.Println((&#38;b).Name())
 fmt.Println(b.Name())
 </code></pre>
 
-<p>If the method expects a pointer and receives a value, the compiler takes the reference of the value (if it&#39;s possible) and passes it automatically.</p>
+<p>If the method expects a pointer and receives a value, the compiler takes the reference of the value (if it&#8217;s possible) and passes it automatically.</p>
 
-<h2 id="Slices">Slices</h2>
+<h2 id="slices">Slices</h2>
 
 <p>They have a more precise definition, but in general are just used as lists. To define a slice:</p>
 
@@ -171,7 +171,7 @@ fmt.Println(b.Name())
 t := someType[]{v1, v2, v3}
 </code></pre>
 
-<p>Sometimes it&#39;s useful to create a slice of anon structs:</p>
+<p>Sometimes it&#8217;s useful to create a slice of anon structs:</p>
 
 <pre><code>s := []struct {
     page   int
@@ -224,7 +224,7 @@ for i := range slice {
 }
 </code></pre>
 
-<h2 id="Maps">Maps</h2>
+<h2 id="maps">Maps</h2>
 
 <p>Maps associates a set of keys with a set of values. They are similar to <code>python</code> dictionaries. To define map between two types, for example <code>keyType</code> and <code>valueType</code>,</p>
 
@@ -252,7 +252,7 @@ for i := range slice {
 
 <p>If the key is not defined in the map it will return the zero value of the value type.</p>
 
-<p>It&#39;s possible to know if the key was found, by receiving two values:</p>
+<p>It&#8217;s possible to know if the key was found, by receiving two values:</p>
 
 <pre><code>value, ok := m[key]
 if ok {
@@ -290,7 +290,7 @@ use(value)
 }
 </code></pre>
 
-<h2 id="Functions">Functions</h2>
+<h2 id="functions">Functions</h2>
 
 <p>Functions are defined with the syntax:</p>
 
@@ -322,7 +322,7 @@ use(value)
 } 
 </code></pre>
 
-<p>If there is some code which should execute at the end of a function, use <code>defer</code>. It&#39;s useful for keeping the source code of some statements close, because their functions are closely related, but their execution isn&#39;t. For example, in this function from <a href="https://go.dev/blog/defer-panic-and-recover">here</a>:</p>
+<p>If there is some code which should execute at the end of a function, use <code>defer</code>. It&#8217;s useful for keeping the source code of some statements close, because their functions are closely related, but their execution isn&#8217;t. For example, in this function from <a href="https://go.dev/blog/defer-panic-and-recover">here</a>:</p>
 
 <pre><code>func CopyFile(dstName, srcName string) (written int64, err error) {
     src, err := os.Open(srcName)
@@ -341,7 +341,7 @@ use(value)
 }
 </code></pre>
 
-<p>the <code>defer src.Close()</code> is kept close to the <code>os.Open(srcName)</code> but their execution isn&#39;t. It&#39;s good to keep those two statements close because it&#39;s easier to read and write that code (no need to remember to close the file, or to remember to check if the code you are reading closes all the files). Without <code>defer</code>:</p>
+<p>the <code>defer src.Close()</code> is kept close to the <code>os.Open(srcName)</code> but their execution isn&#8217;t. It&#8217;s good to keep those two statements close because it&#8217;s easier to read and write that code (no need to remember to close the file, or to remember to check if the code you are reading closes all the files). Without <code>defer</code>:</p>
 
 <pre><code>func CopyFile(dstName, srcName string) (written int64, err error) {
     src, err := os.Open(srcName)
@@ -362,7 +362,7 @@ use(value)
 }
 </code></pre>
 
-<h2 id="Interfaces">Interfaces</h2>
+<h2 id="interfaces">Interfaces</h2>
 
 <p>Similar concepts as <code>haskell</code> typeclasses.</p>
 
@@ -473,7 +473,7 @@ default:
 }
 </code></pre>
 
-<h2 id="Generics">Generics</h2>
+<h2 id="generics">Generics</h2>
 
 <p>A way to define types and functions receiving types as parameters. Example taken from <a href="https://go.dev/doc/tutorial/generics">here</a>:</p>
 
@@ -512,7 +512,7 @@ type vector[T number] struct {
 }
 </code></pre>
 
-<h2 id="Concurrency">Concurrency</h2>
+<h2 id="concurrency">Concurrency</h2>
 
 <p>Go implements concurrency using goroutines. A goroutine creates a thread which executes a function concurrently.</p>
 
@@ -521,7 +521,7 @@ type vector[T number] struct {
 
 <p>Runs the function <code>f</code> in a new goroutine. First it evaluates <code>f</code>, <code>x</code>, <code>y</code> and <code>z</code> in the current thread and then it creates the goroutine.</p>
 
-<p>Goroutines communicate through typed channels. You send values from one end of a <code>channel</code> and read them from the other; they are typed because it&#39;s only possible to send and read values of that type. The channels are, by default, blocking. Like threads, goroutines execute in the same address space.</p>
+<p>Goroutines communicate through typed channels. You send values from one end of a <code>channel</code> and read them from the other; they are typed because it&#8217;s only possible to send and read values of that type. The channels are, by default, blocking. Like threads, goroutines execute in the same address space.</p>
 
 <p>Create a channel:</p>
 
@@ -549,21 +549,21 @@ n = &#60;-ch &#47;&#47; read int from ch into variable n
 close(ch)
 </code></pre>
 
-<p>when an end closes a <code>channel</code> it can&#39;t send more data through it. To test if a <code>channel</code> is closed, receive two parameter:</p>
+<p>when an end closes a <code>channel</code> it can&#8217;t send more data through it. To test if a <code>channel</code> is closed, receive two parameter:</p>
 
 <pre><code>n, ok := &#60;-ch
 </code></pre>
 
 <p>When closed, <code>ok</code> will be <code>false</code>.</p>
 
-<p>It&#39;s possible to iterate over a <code>channel</code>. The iteration gives the value read from the <code>channel</code> in each iteration. The <code>for</code> ends when <code>ch</code> is closed.</p>
+<p>It&#8217;s possible to iterate over a <code>channel</code>. The iteration gives the value read from the <code>channel</code> in each iteration. The <code>for</code> ends when <code>ch</code> is closed.</p>
 
 <pre><code>for i := range ch {
     ...
 }
 </code></pre>
 
-<p>To wait on a set of channels there&#39;s <code>select</code>:</p>
+<p>To wait on a set of channels there&#8217;s <code>select</code>:</p>
 
 <pre><code>for {
     select {
@@ -580,7 +580,7 @@ close(ch)
 
 <p>The execution blocks until one of the channels receives an input. To execute code if no value was sent, you can put it on the <code>default</code> case.</p>
 
-<h2 id="Links%20and%20biblio">Links and biblio</h2>
+<h2 id="links-and-biblio">Links and biblio</h2>
 
 <ul>
 <li><a href="https://go.dev/doc/effective_go">Effective go</a></li>
