@@ -94,21 +94,19 @@
 
 <p>When inserting or deleting a node the balance factor may change, resulting in an inbalanced tree. A set of operations, called <em>rotations</em>, can fix them:</p>
 
-<pre><code>          X[-2]                                 Z[0]
-          &#47;    \                                 &#47;   \ 
-       Y[1]   Xr    rotation           Y     X
-       &#47;  \          --------&#62;     &#47; \   &#47; \
-      Yl   Z                                Yl Zl Zr  Xr
-           &#47; \
-         Zl  Zr
+<pre><code>      X[-2]                   Z[0]
+      &#47;    \                 &#47;   \ 
+   Y[1]   Xr   rotation     Y     X
+   &#47;  \        --------&#62;   &#47; \   &#47; \
+  Yl   Z                  Yl Zl Zr  Xr
+       &#47; \
+     Zl  Zr
 
-
-
-     X[2]                             Y[0 or 1]
-    &#47; \                               &#47; \
-  Xl   Y[1]    rotation     X   Z
-       &#47; \     -------&#62;       &#47; \
-    Yl   Z                            Xl  Yl
+     X[2]                   Y[0 or 1]
+    &#47; \                       &#47; \
+  Xl   Y[1]    rotation      X   Z
+       &#47; \     --------&#62;    &#47; \
+    Yl   Z                 Xl  Yl
          &#47; \
        Zl  Zr
 </code></pre>

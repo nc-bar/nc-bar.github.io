@@ -81,23 +81,23 @@ The invariant of the tree, adding to those of a normal BST, is that the balance 
 When inserting or deleting a node the balance factor may change, resulting in an inbalanced tree. A set of operations, called _rotations_, can fix them:
 
 
-	          X[-2]                                 Z[0]
-	          /    \                                 /   \ 
-	       Y[1]   Xr    rotation           Y     X
-	       /  \          -------->     / \   / \
-	      Yl   Z                                Yl Zl Zr  Xr
-	           / \
-	         Zl  Zr
-
-
-
-	     X[2]                             Y[0 or 1]
-	    / \                               / \
-	  Xl   Y[1]    rotation     X   Z
-	       / \     ------->       / \
-	    Yl   Z                            Xl  Yl
+	
+	      X[-2]                   Z[0]
+	      /    \                 /   \ 
+	   Y[1]   Xr   rotation     Y     X
+	   /  \        -------->   / \   / \
+	  Yl   Z                  Yl Zl Zr  Xr
+	       / \
+	     Zl  Zr
+	
+	     X[2]                   Y[0 or 1]
+	    / \                       / \
+	  Xl   Y[1]    rotation      X   Z
+	       / \     -------->    / \
+	    Yl   Z                 Xl  Yl
 	         / \
 	       Zl  Zr
+
 
 ([] holds the balance factor)
 
