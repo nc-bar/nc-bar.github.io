@@ -1,6 +1,6 @@
 # Algorithms and data strructures
 
-Notes some algorithms and data structures.
+Notes on some algorithms and data structures. [INCOMPLETE]
 
 
 ## binary search trees
